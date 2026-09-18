@@ -1,16 +1,67 @@
 {% extends 'students/base.html' %}
 
-{% block title %}Home | Chaatra Patha{% endblock %}
+{% block title %}छात्रपथः | गृहपृष्ठम्{% endblock %}
 
 {% block content %}
 <section class="hero-section">
     <div class="hero-card">
-        <h1>Welcome to Chaatra Patha</h1>
-        <p class="subtitle">Empowering student learning paths and academic management.</p>
+        <div class="badge">विद्या सर्वस्य भूषणम्</div>
+        <h1 class="sanskrit-title">छात्रपथः</h1>
+        
+        <!-- Typewriter Effect Container -->
+        <div class="typewriter-container">
+            <span id="typewriter-text" class="typewriter-text"></span><span class="typewriter-cursor">|</span>
+        </div>
+
+        <p class="subtitle">Empowering learners with structured roadmaps, resources, and career skill tracks.</p>
+        
         <div class="hero-actions">
-            <a href="{% url 'about' %}" class="btn btn-primary">Learn More</a>
+            <a href="{% url 'about' %}" class="btn btn-primary">Explore Roadmaps</a>
             <a href="{% url 'contact' %}" class="btn btn-secondary">Get In Touch</a>
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    (function() {
+        const phrases = [
+            "chatra path perfect roadmap for every skill",
+            "छात्रपथ: Perfect roadmap for every skill",
+            "छात्रपथः — Your guided pathway to mastery"
+        ];
+        let phraseIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        const typeTarget = document.getElementById('typewriter-text');
+
+        function runTypewriter() {
+            const currentText = phrases[phraseIdx];
+
+            if (isDeleting) {
+                typeTarget.textContent = currentText.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                typeTarget.textContent = currentText.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            let delay = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIdx === currentText.length) {
+                delay = 2200; // Pause when full sentence is typed
+                isDeleting = true;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                phraseIdx = (phraseIdx + 1) % phrases.length;
+                delay = 400; // Brief pause before typing next sentence
+            }
+
+            setTimeout(runTypewriter, delay);
+        }
+
+        document.addEventListener('DOMContentLoaded', runTypewriter);
+    })();
+</script>
 {% endblock %}

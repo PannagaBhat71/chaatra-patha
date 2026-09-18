@@ -4,18 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Chaatra Patha{% endblock %}</title>
+    <title>{% block title %}छात्रपथः | Chaatra Patha{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <!-- Google Fonts for crisp Devanagari and Latin typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Yatra+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="navbar">
         <div class="nav-container">
-            <a href="{% url 'home' %}" class="logo">Chaatra Patha</a>
+            <a href="{% url 'home' %}" class="logo">
+                <span class="logo-sanskrit">छात्रपथः</span>
+                <span class="logo-sub">Chaatra Patha</span>
+            </a>
+
             <nav class="nav-links">
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'about' %}">About</a>
-                <a href="{% url 'contact' %}">Contact</a>
+                <a href="{% url 'home' %}" class="nav-link">Home</a>
+                <a href="{% url 'about' %}" class="nav-link">About</a>
+                <a href="{% url 'contact' %}" class="nav-link">Contact</a>
             </nav>
+
+            <div class="nav-actions">
+                <!-- Night Mode / Light Mode Toggle Button -->
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Night Mode" title="Toggle Night Mode">
+                    <span id="theme-icon">🌙</span>
+                </button>
+                <a href="#login" class="btn btn-outline">Log In</a>
+                <a href="#signup" class="btn btn-primary">Sign Up</a>
+            </div>
         </div>
     </header>
 
@@ -26,8 +43,33 @@
 
     <footer class="footer">
         <div class="footer-container">
-            <p>&copy; 2026 Chaatra Patha. All rights reserved.</p>
+            <p>&copy; 2026 छात्रपथः (Chaatra Patha). All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Simple JavaScript for Night Mode Toggle -->
+    <script>
+        (function() {
+            const toggleBtn = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeIcon.textContent = '🌙';
+            }
+
+            toggleBtn.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                themeIcon.textContent = isDark ? '☀️' : '🌙';
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            });
+        })();
+    </script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
