@@ -1,0 +1,48 @@
+{% extends 'students/base.html' %}
+
+{% block title %}Log In | Chaatra Patha{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="neu-card auth-card">
+        <div class="neu-badge">Student Portal</div>
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="auth-subtitle">Sign in to access your customized skill roadmap.</p>
+
+        {% if form.errors %}
+        <div class="form-error-alert neu-inset">
+            <strong>Invalid Credentials</strong>
+            <p>Please check your username and password and try again.</p>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'login' %}" class="auth-form" novalidate>
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                <div class="input-wrapper">
+                    {{ form.username }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+                <div class="input-wrapper">
+                    {{ form.password }}
+                </div>
+            </div>
+
+            <div class="auth-actions">
+                <button type="submit" class="btn neu-btn-primary auth-submit-btn">
+                    Log In
+                </button>
+            </div>
+        </form>
+
+        <div class="auth-footer">
+            <p>Do not have an account? <a href="{% url 'signup' %}" class="auth-link">Create an account</a></p>
+        </div>
+    </div>
+</section>
+{% endblock %}

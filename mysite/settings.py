@@ -10,11 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
+import shutil
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+LOGIN_REDIRECT_URL = "student-list"
+LOGOUT_REDIRECT_URL = "home"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
@@ -26,6 +30,7 @@ SECRET_KEY = 'django-insecure-i7r%yok*4^*y^^p9oc^h9@l$x=y-p)nz1yc1t)lc+qab#l()om
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 
 # Application definition
@@ -37,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'students'
+    'students',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -73,12 +79,29 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+IS_VERCEL = 'VERCEL' in os.environ
+
+if IS_VERCEL:
+    tmp_db = Path('/tmp/db.sqlite3')
+    local_db = BASE_DIR / 'db.sqlite3'
+    if not tmp_db.exists() and local_db.exists():
+        try:
+            shutil.copy(local_db, tmp_db)
+        except Exception:
+            pass
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': tmp_db,
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -115,7 +138,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Email

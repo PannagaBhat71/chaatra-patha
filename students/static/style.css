@@ -1002,6 +1002,79 @@ body {
 }
 
 /* ==========================================================================
+   Authentication Pages (Login & Sign Up)
+   ========================================================================== */
+
+.auth-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0;
+}
+
+.auth-card {
+    max-width: 520px;
+    width: 100%;
+    padding: 3rem 2.5rem;
+    text-align: center;
+}
+
+.auth-title {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    text-align: left;
+}
+
+.auth-actions {
+    margin-top: 1rem;
+}
+
+.auth-submit-btn {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+}
+
+.auth-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--nav-border);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.auth-link {
+    color: var(--primary-blue);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.user-greeting {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
 

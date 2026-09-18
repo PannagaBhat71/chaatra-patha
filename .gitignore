@@ -12,6 +12,10 @@ __pycache__/
 *.sqlite3
 db.sqlite3
 
+# Static and Vercel builds
+staticfiles/
+.vercel/
+
 # IDE and OS files
 .vscode/
 .idea/

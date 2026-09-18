@@ -15,12 +15,12 @@
     <div class="form-layout-grid">
         <!-- Form Container -->
         <div class="neu-card form-card">
-            <h3 class="form-card-title">📝 New Student Profile</h3>
+            <h3 class="form-card-title">New Student Profile</h3>
             <p class="overview-subtitle">Skills must be selected strictly from the approved skills dictionary.</p>
 
             {% if form.errors %}
             <div class="form-error-alert neu-inset">
-                <strong>⚠️ Please correct the errors below:</strong>
+                <strong>Please correct the errors below:</strong>
                 <ul>
                     {% for field in form %}
                         {% for error in field.errors %}
@@ -38,9 +38,7 @@
                 {% csrf_token %}
 
                 <div class="form-group">
-                    <label for="{{ form.roll_number.id_for_label }}" class="form-label">
-                        <span class="label-icon">🔢</span> Roll Number
-                    </label>
+                    <label for="{{ form.roll_number.id_for_label }}" class="form-label">Roll Number</label>
                     <div class="input-wrapper">
                         {{ form.roll_number }}
                     </div>
@@ -50,9 +48,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ form.student_name.id_for_label }}" class="form-label">
-                        <span class="label-icon">👤</span> Full Name
-                    </label>
+                    <label for="{{ form.student_name.id_for_label }}" class="form-label">Full Name</label>
                     <div class="input-wrapper">
                         {{ form.student_name }}
                     </div>
@@ -62,9 +58,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ form.skills.id_for_label }}" class="form-label">
-                        <span class="label-icon">⚡</span> Verified Skills (Typed / Selected)
-                    </label>
+                    <label for="{{ form.skills.id_for_label }}" class="form-label">Verified Skills (Typed / Selected)</label>
                     <div class="input-wrapper">
                         {{ form.skills }}
                     </div>
@@ -77,7 +71,7 @@
                     </datalist>
 
                     <small class="form-hint">
-                        💡 Start typing to autocomplete from 90+ verified skills (or click pills below to insert).
+                        Start typing to autocomplete from 90+ verified skills (or click pills below to insert).
                     </small>
                     
                     {% if form.skills.errors %}
@@ -87,8 +81,8 @@
                     <!-- Quick Skill Selector Accordion / Pills -->
                     <div class="skills-taxonomy-box neu-inset">
                         <div class="taxonomy-header" id="toggle-taxonomy-btn">
-                            <span>📚 Browse Approved Skills Taxonomy ({{ all_skills|length }} skills)</span>
-                            <span id="taxonomy-arrow">▼</span>
+                            <span>Browse Approved Skills Taxonomy ({{ all_skills|length }} skills)</span>
+                            <span id="taxonomy-arrow">[Show]</span>
                         </div>
                         <div class="taxonomy-content" id="taxonomy-content" style="display: none;">
                             {% for category, skills in skills_dictionary.items %}
@@ -108,9 +102,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ form.age.id_for_label }}" class="form-label">
-                        <span class="label-icon">🎂</span> Age
-                    </label>
+                    <label for="{{ form.age.id_for_label }}" class="form-label">Age</label>
                     <div class="input-wrapper">
                         {{ form.age }}
                     </div>
@@ -121,7 +113,7 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn neu-btn-primary form-submit-btn">
-                        <span>💾 Save Student Credentials</span>
+                        Save Student Credentials
                     </button>
                     <a href="{% url 'home' %}" class="btn neu-btn-secondary">Cancel</a>
                 </div>
@@ -130,7 +122,7 @@
 
         <!-- Registered Students Overview Card -->
         <div class="neu-card students-overview-card">
-            <h3 class="form-card-title">🎓 Registered Students ({{ students|length }})</h3>
+            <h3 class="form-card-title">Registered Students ({{ students|length }})</h3>
             <p class="overview-subtitle">Live records stored in the database with verified skill tags.</p>
 
             {% if students %}
@@ -160,7 +152,6 @@
             </div>
             {% else %}
             <div class="empty-state neu-inset">
-                <div class="empty-icon">📂</div>
                 <h4>No Students Registered Yet</h4>
                 <p>Fill out the form on the left to add your first student record.</p>
             </div>
@@ -181,7 +172,7 @@
         toggleBtn.addEventListener('click', function() {
             const isOpen = content.style.display !== 'none';
             content.style.display = isOpen ? 'none' : 'block';
-            arrow.textContent = isOpen ? '▼' : '▲';
+            arrow.textContent = isOpen ? '[Show]' : '[Hide]';
         });
     }
 
@@ -194,7 +185,6 @@
         if (!currentVal) {
             skillsInput.value = skillName;
         } else {
-            // Check if already present
             const existing = currentVal.split(',').map(s => s.trim().toLowerCase());
             if (!existing.includes(skillName.toLowerCase())) {
                 skillsInput.value = currentVal + ', ' + skillName;
