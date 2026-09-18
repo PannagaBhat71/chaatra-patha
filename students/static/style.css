@@ -744,10 +744,198 @@ body {
 }
 
 /* ==========================================================================
+   Student Registration Form & Records Table
+   ========================================================================== */
+
+.form-layout-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1.3fr;
+    gap: 2.5rem;
+    width: 100%;
+    align-items: start;
+}
+
+.form-card, .students-overview-card {
+    padding: 2.5rem;
+}
+
+.form-card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.overview-subtitle {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.student-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    margin-top: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    text-align: left;
+}
+
+.form-label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.label-icon {
+    font-size: 1.1rem;
+}
+
+.neu-input {
+    width: 100%;
+    padding: 0.8rem 1.1rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    background: var(--neu-surface);
+    border: 1px solid var(--neu-border);
+    border-radius: 14px;
+    box-shadow: var(--neu-inset);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.neu-input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: var(--neu-inset), 0 0 0 3px var(--primary-blue-glow);
+}
+
+.form-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.field-error {
+    font-size: 0.82rem;
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+.form-error-alert {
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+    border-radius: 12px;
+    color: var(--danger-color);
+    font-size: 0.9rem;
+    border: 1px solid rgba(220, 38, 38, 0.25);
+}
+
+.form-error-alert ul {
+    margin: 0.5rem 0 0 1.2rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.form-submit-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+}
+
+/* Students Table */
+.students-table-wrapper {
+    overflow-x: auto;
+    border-radius: 16px;
+    padding: 0.5rem;
+}
+
+.students-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.students-table th {
+    padding: 1rem 0.9rem;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    font-weight: 700;
+    border-bottom: 1px solid var(--nav-border);
+}
+
+.students-table td {
+    padding: 1rem 0.9rem;
+    font-size: 0.92rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--nav-border);
+}
+
+.students-table tr:last-child td {
+    border-bottom: none;
+}
+
+.badge-roll {
+    font-weight: 700;
+    color: var(--primary-blue);
+    background: var(--neu-surface);
+    padding: 0.25rem 0.6rem;
+    border-radius: 8px;
+    box-shadow: var(--neu-btn);
+    font-size: 0.85rem;
+}
+
+.badge-skill {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    background: var(--neu-surface);
+    border: 1px solid var(--neu-border);
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.empty-state {
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    border-radius: 16px;
+}
+
+.empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.empty-state h4 {
+    color: var(--text-primary);
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+}
+
+/* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
 
 @media (max-width: 992px) {
+    .form-layout-grid {
+        grid-template-columns: 1fr;
+    }
     .grid-4 {
         grid-template-columns: repeat(2, 1fr);
     }

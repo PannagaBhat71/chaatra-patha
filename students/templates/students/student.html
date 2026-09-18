@@ -1,0 +1,135 @@
+{% extends 'students/base.html' %}
+
+{% block title %}छात्र-पंजीकरणम् | Student Registration{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="section-header">
+        <span class="section-tag neu-tag-success">छात्र-पंजीकरणम् • Student Registry</span>
+        <h2 class="section-title">Student Registration & Skill Profiling</h2>
+        <p class="section-subtitle">
+            Register student credentials and verify skill areas to map them to authentic learning roadmaps.
+        </p>
+    </div>
+
+    <div class="form-layout-grid">
+        <!-- Form Container -->
+        <div class="neu-card form-card">
+            <h3 class="form-card-title">📝 New Student Profile</h3>
+
+            {% if form.errors %}
+            <div class="form-error-alert neu-inset">
+                <strong>⚠️ Please correct the errors below:</strong>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'add-student' %}" class="student-form" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="{{ form.roll_number.id_for_label }}" class="form-label">
+                        <span class="label-icon">🔢</span> Roll Number
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.roll_number }}
+                    </div>
+                    {% if form.roll_number.errors %}
+                        <div class="field-error">{{ form.roll_number.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.student_name.id_for_label }}" class="form-label">
+                        <span class="label-icon">👤</span> Full Name
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.student_name }}
+                    </div>
+                    {% if form.student_name.errors %}
+                        <div class="field-error">{{ form.student_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.skills.id_for_label }}" class="form-label">
+                        <span class="label-icon">⚡</span> Skills & Interests
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.skills }}
+                    </div>
+                    <small class="form-hint">E.g., Python, Machine Learning, Django, Web Development</small>
+                    {% if form.skills.errors %}
+                        <div class="field-error">{{ form.skills.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.age.id_for_label }}" class="form-label">
+                        <span class="label-icon">🎂</span> Age
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.age }}
+                    </div>
+                    {% if form.age.errors %}
+                        <div class="field-error">{{ form.age.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn neu-btn-primary form-submit-btn">
+                        <span>💾 Save Student Credentials</span>
+                    </button>
+                    <a href="{% url 'home' %}" class="btn neu-btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Registered Students Overview Card -->
+        <div class="neu-card students-overview-card">
+            <h3 class="form-card-title">🎓 Registered Students ({{ students|length }})</h3>
+            <p class="overview-subtitle">Live records stored in the database for roadmap assignments.</p>
+
+            {% if students %}
+            <div class="students-table-wrapper neu-inset">
+                <table class="students-table">
+                    <thead>
+                        <tr>
+                            <th>Roll #</th>
+                            <th>Name</th>
+                            <th>Skills</th>
+                            <th>Age</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in students %}
+                        <tr>
+                            <td class="roll-cell"><span class="badge-roll">#{{ s.roll_number }}</span></td>
+                            <td class="name-cell"><strong>{{ s.student_name }}</strong></td>
+                            <td class="skill-cell"><span class="badge-skill">{{ s.skills }}</span></td>
+                            <td class="age-cell">{{ s.age }} yrs</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state neu-inset">
+                <div class="empty-icon">📂</div>
+                <h4>No Students Registered Yet</h4>
+                <p>Submit the form on the left to add your first student record.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
