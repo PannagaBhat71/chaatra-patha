@@ -1,8 +1,19 @@
-﻿venv
-/
-*.sqlite3
-/
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Python cache
 __pycache__/
-*.sqlite3/
-*.pyc
-.vscode
+*.py[cod]
+*$py.class
+
+# Django database
+*.sqlite3
+db.sqlite3
+
+# IDE and OS files
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db

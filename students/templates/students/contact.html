@@ -1,0 +1,19 @@
+{% extends 'students/base.html' %}
+
+{% block title %}Contact Us | Chaatra Patha{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="card">
+        <h2>Contact Us</h2>
+        <p>Have questions or feedback? We'd love to hear from you!</p>
+        <div class="contact-info">
+            <p><strong>Email:</strong> support@chaatrapatha.org</p>
+            <p><strong>Location:</strong> Karnataka, India</p>
+        </div>
+        <div class="actions">
+            <a href="{% url 'home' %}" class="btn btn-secondary">&larr; Back to Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

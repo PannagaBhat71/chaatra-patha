@@ -1,0 +1,16 @@
+{% extends 'students/base.html' %}
+
+{% block title %}About Us | Chaatra Patha{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="card">
+        <h2>About Chaatra Patha</h2>
+        <p>Chaatra Patha is an educational platform dedicated to guiding students through their academic journey with curated tools, roadmaps, and resources.</p>
+        <p>Our mission is to make learning structured, accessible, and engaging for every student.</p>
+        <div class="actions">
+            <a href="{% url 'home' %}" class="btn btn-secondary">&larr; Back to Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

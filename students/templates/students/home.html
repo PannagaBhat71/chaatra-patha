@@ -1,0 +1,16 @@
+{% extends 'students/base.html' %}
+
+{% block title %}Home | Chaatra Patha{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-card">
+        <h1>Welcome to Chaatra Patha</h1>
+        <p class="subtitle">Empowering student learning paths and academic management.</p>
+        <div class="hero-actions">
+            <a href="{% url 'about' %}" class="btn btn-primary">Learn More</a>
+            <a href="{% url 'contact' %}" class="btn btn-secondary">Get In Touch</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
