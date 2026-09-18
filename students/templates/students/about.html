@@ -1,17 +1,22 @@
 {% extends 'students/base.html' %}
 
-{% block title %}About Us | Chaatra Patha{% endblock %}
+{% block title %}About Us | छात्रपथः{% endblock %}
 
 {% block content %}
-<section class="page-section">
-    <div class="card">
-        <h2>About Chaatra Patha</h2>
-        <p>Chaatra Patha is an educational platform dedicated to guiding students through their academic journey with curated tools, roadmaps, and resources.</p>
-        <p>Our mission is to make learning structured, accessible, and engaging for every student.</p>
+<section class="hero-section">
+    <div class="neu-card hero-card">
+        <div class="neu-badge">अस्माकं लक्ष्यम् • Our Mission</div>
+        <h2 class="section-title">About छात्रपथः (Chaatra Patha)</h2>
+        <p class="subtitle">
+            Chaatra Patha is an educational ecosystem dedicated to guiding students through their academic and technical journey with vetted tools, sequenced skill roadmaps, and authentic resources.
+        </p>
+        <p class="card-desc" style="max-width: 650px; margin: 0 auto 2rem auto;">
+            Our mission is to eliminate the noise of tutorial hell and outdated internet guides, enabling every ambitious student to build genuine competence, confidence, and career readiness.
+        </p>
         <div class="actions">
-            <a href="{% url 'home' %}" class="btn btn-secondary">&larr; Back to Home</a>
+            <a href="{% url 'home' %}" class="btn neu-btn-secondary">&larr; Back to Home</a>
+            <a href="{% url 'contact' %}" class="btn neu-btn-primary">Connect With Us</a>
         </div>
     </div>
 </section>
 {% endblock %}
-

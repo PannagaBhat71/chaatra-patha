@@ -1,23 +1,180 @@
 {% extends 'students/base.html' %}
 
-{% block title %}छात्रपथः | गृहपृष्ठम्{% endblock %}
+{% block title %}छात्रपथः | The Perfect Skill Roadmap{% endblock %}
 
 {% block content %}
+<!-- 1. Hero Section -->
 <section class="hero-section">
-    <div class="hero-card">
-        <div class="badge">विद्या सर्वस्य भूषणम्</div>
+    <div class="neu-card hero-card">
+        <div class="neu-badge">विद्या सर्वस्य भूषणम्</div>
         <h1 class="sanskrit-title">छात्रपथः</h1>
         
         <!-- Typewriter Effect Container -->
-        <div class="typewriter-container">
+        <div class="typewriter-container neu-inset">
             <span id="typewriter-text" class="typewriter-text"></span><span class="typewriter-cursor">|</span>
         </div>
 
-        <p class="subtitle">Empowering learners with structured roadmaps, resources, and career skill tracks.</p>
+        <p class="subtitle">
+            Bridging the gap between raw student ambition and true engineering excellence through verified, step-by-step skill pathways.
+        </p>
         
         <div class="hero-actions">
-            <a href="{% url 'about' %}" class="btn btn-primary">Explore Roadmaps</a>
-            <a href="{% url 'contact' %}" class="btn btn-secondary">Get In Touch</a>
+            <a href="#why-chaatra-patha" class="btn neu-btn-primary">Explore The Roadmap</a>
+            <a href="{% url 'about' %}" class="btn neu-btn-secondary">Learn Our Mission</a>
+        </div>
+    </div>
+</section>
+
+<!-- 2. The Dilemma / The Problem Section -->
+<section id="the-problem" class="content-section">
+    <div class="section-header">
+        <span class="section-tag neu-tag-alert">समस्या • The Reality</span>
+        <h2 class="section-title">Passionate Students, Wrong Resources</h2>
+        <p class="section-subtitle">
+            Today's students have unprecedented ambition to master AI, software development, and technical skills. 
+            Yet, over 80% struggle to become job-ready. Here is why:
+        </p>
+    </div>
+
+    <div class="neu-grid grid-3">
+        <!-- Problem Card 1 -->
+        <div class="neu-card problem-card">
+            <div class="card-icon neu-icon-danger">⚠️</div>
+            <h3 class="card-title">Outdated & Deprecated Resources</h3>
+            <p class="card-desc">
+                Students invest weeks following 5-year-old YouTube playlists and blog articles that teach deprecated libraries, obsolete design patterns, and insecure legacy code.
+            </p>
+            <div class="card-highlight neu-inset">
+                Result: Time wasted unlearning obsolete practices during technical interviews.
+            </div>
+        </div>
+
+        <!-- Problem Card 2 -->
+        <div class="neu-card problem-card">
+            <div class="card-icon neu-icon-danger">🌀</div>
+            <h3 class="card-title">The "Tutorial Hell" Abyss</h3>
+            <p class="card-desc">
+                Passive video watching tricks the brain into feeling productive. Copy-pasting code alongside an instructor never builds independent problem-solving skills or debugging grit.
+            </p>
+            <div class="card-highlight neu-inset">
+                Result: Inability to write a project from scratch without a tutorial guiding every keystroke.
+            </div>
+        </div>
+
+        <!-- Problem Card 3 -->
+        <div class="neu-card problem-card">
+            <div class="card-icon neu-icon-danger">📉</div>
+            <h3 class="card-title">Fragmented & Conflicting Roadmaps</h3>
+            <p class="card-desc">
+                Different influencers advise different paths—skipping data structures, jumping straight into advanced frameworks without fundamentals, and leaving massive knowledge gaps.
+            </p>
+            <div class="card-highlight neu-inset">
+                Result: Fragile understanding, impostor syndrome, and burnout.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. How Chaatra Patha Fixes It (The Solution) -->
+<section id="why-chaatra-patha" class="content-section">
+    <div class="section-header">
+        <span class="section-tag neu-tag-success">समाधानम् • The Solution</span>
+        <h2 class="section-title">How छात्रपथः Fixes The Learning Journey</h2>
+        <p class="section-subtitle">
+            छात्रपथः acts as an intelligent lighthouse. We curate, verify, and sequence learning materials so every hour of student effort translates into demonstrable competence.
+        </p>
+    </div>
+
+    <div class="neu-grid grid-4">
+        <!-- Solution 1 -->
+        <div class="neu-card solution-card">
+            <div class="card-icon neu-icon-success">🎯</div>
+            <h3 class="card-title">Industry-Vetted Roadmaps</h3>
+            <p class="card-desc">
+                Clear, progressive trees where each concept builds logically on prerequisite foundations, crafted with inputs from top engineers and professors.
+            </p>
+        </div>
+
+        <!-- Solution 2 -->
+        <div class="neu-card solution-card">
+            <div class="card-icon neu-icon-success">🛡️</div>
+            <h3 class="card-title">Resource Quality Filter</h3>
+            <p class="card-desc">
+                We ban clickbait. Only peer-reviewed documentations, clean codebases, and production-tested courses pass our editorial quality checks.
+            </p>
+        </div>
+
+        <!-- Solution 3 -->
+        <div class="neu-card solution-card">
+            <div class="card-icon neu-icon-success">🚀</div>
+            <h3 class="card-title">Milestone & Project Anchors</h3>
+            <p class="card-desc">
+                Theory is immediately cemented with hands-on, standalone portfolio projects with automated validation and architecture checklists.
+            </p>
+        </div>
+
+        <!-- Solution 4 -->
+        <div class="neu-card solution-card">
+            <div class="card-icon neu-icon-success">🤝</div>
+            <h3 class="card-title">Mentorship & Peer Review</h3>
+            <p class="card-desc">
+                Connect with mentors and peer learners to get feedback, conduct mock code reviews, and stay accountable throughout your journey.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Comparison Table: Random Learning vs छात्रपथः -->
+<section class="content-section">
+    <div class="section-header">
+        <span class="section-tag">तुलना • The Comparison</span>
+        <h2 class="section-title">Why Structure Changes Everything</h2>
+    </div>
+
+    <div class="neu-card comparison-box">
+        <div class="comparison-row comparison-header">
+            <div class="comp-col aspect-col">Learning Dimension</div>
+            <div class="comp-col bad-col">Unstructured Internet Surfing</div>
+            <div class="comp-col good-col">The छात्रपथः Pathway</div>
+        </div>
+
+        <div class="comparison-row">
+            <div class="comp-col aspect-col"><strong>Resource Selection</strong></div>
+            <div class="comp-col bad-col">Algorithm-driven clickbait, obsolete blogs</div>
+            <div class="comp-col good-col">Vetted documentation, modern production code</div>
+        </div>
+
+        <div class="comparison-row">
+            <div class="comp-col aspect-col"><strong>Skill Progression</strong></div>
+            <div class="comp-col bad-col">Random tutorial hopping, missing prerequisites</div>
+            <div class="comp-col good-col">Logically sequenced, prerequisite-aware track</div>
+        </div>
+
+        <div class="comparison-row">
+            <div class="comp-col aspect-col"><strong>Retention & Mastery</strong></div>
+            <div class="comp-col bad-col">Forgotten in 2 weeks (Tutorial Hell)</div>
+            <div class="comp-col good-col">Permanent skills cemented via real projects</div>
+        </div>
+
+        <div class="comparison-row">
+            <div class="comp-col aspect-col"><strong>Career Preparedness</strong></div>
+            <div class="comp-col bad-col">Generic cloned apps, interview anxiety</div>
+            <div class="comp-col good-col">Unique portfolio apps, architectural depth</div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Call To Action Banner -->
+<section class="content-section cta-section">
+    <div class="neu-card cta-card">
+        <span class="sanskrit-banner-text">आरभ्यताम् अद्यैव!</span>
+        <h2 class="cta-title">Stop Wasting Time on Misleading Guides</h2>
+        <p class="cta-desc">
+            Join thousands of passionate learners walking the true, guided path toward technical excellence.
+        </p>
+        <div class="cta-buttons">
+            <a href="{% url 'about' %}" class="btn neu-btn-primary">Explore Verified Pathways</a>
+            <a href="{% url 'contact' %}" class="btn neu-btn-secondary">Get Mentorship</a>
         </div>
     </div>
 </section>
@@ -29,7 +186,8 @@
         const phrases = [
             "chatra path perfect roadmap for every skill",
             "छात्रपथ: Perfect roadmap for every skill",
-            "छात्रपथः — Your guided pathway to mastery"
+            "Stop wasting time on wrong resources",
+            "Learn real skills with verified pathways"
         ];
         let phraseIdx = 0;
         let charIdx = 0;
@@ -47,15 +205,15 @@
                 charIdx++;
             }
 
-            let delay = isDeleting ? 40 : 80;
+            let delay = isDeleting ? 35 : 75;
 
             if (!isDeleting && charIdx === currentText.length) {
-                delay = 2200; // Pause when full sentence is typed
+                delay = 2400; // Pause when sentence is complete
                 isDeleting = true;
             } else if (isDeleting && charIdx === 0) {
                 isDeleting = false;
                 phraseIdx = (phraseIdx + 1) % phrases.length;
-                delay = 400; // Brief pause before typing next sentence
+                delay = 400; // Pause before typing next phrase
             }
 
             setTimeout(runTypewriter, delay);

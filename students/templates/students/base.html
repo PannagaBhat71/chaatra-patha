@@ -9,7 +9,7 @@
     <!-- Google Fonts for crisp Devanagari and Latin typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Yatra+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="navbar">
@@ -27,11 +27,11 @@
 
             <div class="nav-actions">
                 <!-- Night Mode / Light Mode Toggle Button -->
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Night Mode" title="Toggle Night Mode">
+                <button id="theme-toggle" class="theme-toggle-btn neu-btn-circle" aria-label="Toggle Night Mode" title="Toggle Night Mode">
                     <span id="theme-icon">🌙</span>
                 </button>
-                <a href="#login" class="btn btn-outline">Log In</a>
-                <a href="#signup" class="btn btn-primary">Sign Up</a>
+                <a href="#login" class="btn neu-btn-outline">Log In</a>
+                <a href="#signup" class="btn neu-btn-primary">Sign Up</a>
             </div>
         </div>
     </header>
@@ -41,9 +41,72 @@
         {% endblock %}
     </main>
 
+    <!-- Comprehensive, Production-Grade Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <p>&copy; 2026 छात्रपथः (Chaatra Patha). All rights reserved.</p>
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">
+                        <span class="logo-sanskrit">छात्रपथः</span>
+                        <span class="footer-tagline">The Guided Pathway to Skill Mastery</span>
+                    </div>
+                    <p class="footer-desc">
+                        Empowering passionate students across the globe by replacing fragmented tutorials with verified, milestone-based skill roadmaps.
+                    </p>
+                    <div class="footer-shloka">
+                        <span class="shloka-text">"उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः"</span>
+                        <span class="shloka-trans">— Tasks succeed through earnest effort, not wishful thinking.</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Quick Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'contact' %}">Contact & Support</a></li>
+                        <li><a href="https://github.com/PannagaBhat71/chaatra-patha.git" target="_blank" rel="noopener">GitHub Repository</a></li>
+                    </ul>
+                </div>
+
+                <!-- Popular Skill Roadmaps -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Skill Roadmaps</h4>
+                    <ul class="footer-links">
+                        <li><a href="#web-dev">Full Stack Web Development</a></li>
+                        <li><a href="#ai-ml">Artificial Intelligence & ML</a></li>
+                        <li><a href="#data-eng">Data Engineering & Analytics</a></li>
+                        <li><a href="#cloud">Cloud Architecture & DevOps</a></li>
+                        <li><a href="#cyber-sec">Cybersecurity Essentials</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources & Verification -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Student Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#resource-check">Resource Fact-Check</a></li>
+                        <li><a href="#curriculum">Vetted Curriculums</a></li>
+                        <li><a href="#projects">Portfolio Projects</a></li>
+                        <li><a href="#community">Community Mentorship</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-copy">
+                    &copy; 2026 छात्रपथः (Chaatra Patha). Built with pride for student excellence.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <span class="dot">•</span>
+                    <a href="#terms">Terms of Service</a>
+                    <span class="dot">•</span>
+                    <a href="#open-source">Open Source</a>
+                </div>
+            </div>
         </div>
     </footer>
 
