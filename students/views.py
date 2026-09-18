@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from students.models import student
 from .forms import studentform
+from .skills_data import SKILLS_DICTIONARY, ALL_SKILLS_LIST
 
 
 # Create your views here.
@@ -18,7 +19,9 @@ def add_student(request):
     students_list = student.objects.all().order_by('-date_created')
     return render(request, "students/student.html", {
         "form": form,
-        "students": students_list
+        "students": students_list,
+        "skills_dictionary": SKILLS_DICTIONARY,
+        "all_skills": ALL_SKILLS_LIST,
     })
 
 

@@ -8,7 +8,7 @@
         <span class="section-tag neu-tag-success">छात्र-पंजीकरणम् • Student Registry</span>
         <h2 class="section-title">Student Registration & Skill Profiling</h2>
         <p class="section-subtitle">
-            Register student credentials and verify skill areas to map them to authentic learning roadmaps.
+            Register student credentials with verified industry skills from our standardized curriculum taxonomy.
         </p>
     </div>
 
@@ -16,6 +16,7 @@
         <!-- Form Container -->
         <div class="neu-card form-card">
             <h3 class="form-card-title">📝 New Student Profile</h3>
+            <p class="overview-subtitle">Skills must be selected strictly from the approved skills dictionary.</p>
 
             {% if form.errors %}
             <div class="form-error-alert neu-inset">
@@ -62,15 +63,48 @@
 
                 <div class="form-group">
                     <label for="{{ form.skills.id_for_label }}" class="form-label">
-                        <span class="label-icon">⚡</span> Skills & Interests
+                        <span class="label-icon">⚡</span> Verified Skills (Typed / Selected)
                     </label>
                     <div class="input-wrapper">
                         {{ form.skills }}
                     </div>
-                    <small class="form-hint">E.g., Python, Machine Learning, Django, Web Development</small>
+                    
+                    <!-- Datalist containing all valid skills from skills_dictionary -->
+                    <datalist id="skills-datalist">
+                        {% for skill in all_skills %}
+                            <option value="{{ skill }}"></option>
+                        {% endfor %}
+                    </datalist>
+
+                    <small class="form-hint">
+                        💡 Start typing to autocomplete from 90+ verified skills (or click pills below to insert).
+                    </small>
+                    
                     {% if form.skills.errors %}
                         <div class="field-error">{{ form.skills.errors.0 }}</div>
                     {% endif %}
+
+                    <!-- Quick Skill Selector Accordion / Pills -->
+                    <div class="skills-taxonomy-box neu-inset">
+                        <div class="taxonomy-header" id="toggle-taxonomy-btn">
+                            <span>📚 Browse Approved Skills Taxonomy ({{ all_skills|length }} skills)</span>
+                            <span id="taxonomy-arrow">▼</span>
+                        </div>
+                        <div class="taxonomy-content" id="taxonomy-content" style="display: none;">
+                            {% for category, skills in skills_dictionary.items %}
+                                <div class="category-block">
+                                    <h5 class="category-title">{{ category }}</h5>
+                                    <div class="skill-pills-wrap">
+                                        {% for s in skills %}
+                                            <button type="button" class="neu-pill-btn" onclick="addSkillToInput('{{ s|escapejs }}')">
+                                                + {{ s }}
+                                            </button>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -97,7 +131,7 @@
         <!-- Registered Students Overview Card -->
         <div class="neu-card students-overview-card">
             <h3 class="form-card-title">🎓 Registered Students ({{ students|length }})</h3>
-            <p class="overview-subtitle">Live records stored in the database for roadmap assignments.</p>
+            <p class="overview-subtitle">Live records stored in the database with verified skill tags.</p>
 
             {% if students %}
             <div class="students-table-wrapper neu-inset">
@@ -106,7 +140,7 @@
                         <tr>
                             <th>Roll #</th>
                             <th>Name</th>
-                            <th>Skills</th>
+                            <th>Verified Skills</th>
                             <th>Age</th>
                         </tr>
                     </thead>
@@ -115,7 +149,9 @@
                         <tr>
                             <td class="roll-cell"><span class="badge-roll">#{{ s.roll_number }}</span></td>
                             <td class="name-cell"><strong>{{ s.student_name }}</strong></td>
-                            <td class="skill-cell"><span class="badge-skill">{{ s.skills }}</span></td>
+                            <td class="skill-cell">
+                                <span class="badge-skill">{{ s.skills }}</span>
+                            </td>
                             <td class="age-cell">{{ s.age }} yrs</td>
                         </tr>
                         {% endfor %}
@@ -126,10 +162,45 @@
             <div class="empty-state neu-inset">
                 <div class="empty-icon">📂</div>
                 <h4>No Students Registered Yet</h4>
-                <p>Submit the form on the left to add your first student record.</p>
+                <p>Fill out the form on the left to add your first student record.</p>
             </div>
             {% endif %}
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Toggle taxonomy browser
+    const toggleBtn = document.getElementById('toggle-taxonomy-btn');
+    const content = document.getElementById('taxonomy-content');
+    const arrow = document.getElementById('taxonomy-arrow');
+
+    if (toggleBtn && content) {
+        toggleBtn.addEventListener('click', function() {
+            const isOpen = content.style.display !== 'none';
+            content.style.display = isOpen ? 'none' : 'block';
+            arrow.textContent = isOpen ? '▼' : '▲';
+        });
+    }
+
+    // Add clicked skill pill into the input field
+    function addSkillToInput(skillName) {
+        const skillsInput = document.getElementById('{{ form.skills.id_for_label }}');
+        if (!skillsInput) return;
+
+        let currentVal = skillsInput.value.trim();
+        if (!currentVal) {
+            skillsInput.value = skillName;
+        } else {
+            // Check if already present
+            const existing = currentVal.split(',').map(s => s.trim().toLowerCase());
+            if (!existing.includes(skillName.toLowerCase())) {
+                skillsInput.value = currentVal + ', ' + skillName;
+            }
+        }
+        skillsInput.focus();
+    }
+</script>
 {% endblock %}
