@@ -10,8 +10,7 @@ __pycache__/
 
 # Django database (tracked for serverless Vercel deployment)
 
-# Static and Vercel builds
-staticfiles/
+# Vercel cache builds
 .vercel/
 
 # IDE and OS files

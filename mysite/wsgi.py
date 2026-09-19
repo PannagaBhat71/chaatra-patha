@@ -25,4 +25,13 @@ if 'VERCEL' in os.environ:
     except Exception as err:
         print(f"Auto-migration notice: {err}")
 
+try:
+    from whitenoise import WhiteNoise
+    application = WhiteNoise(application, root=str(BASE_DIR / 'staticfiles'))
+    students_static = str(BASE_DIR / 'students' / 'static')
+    if os.path.exists(students_static):
+        application.add_files(students_static, prefix='')
+except Exception:
+    pass
+
 app = application

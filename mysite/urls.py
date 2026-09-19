@@ -1,23 +1,29 @@
 """
 URL configuration for mysite project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.conf import settings
+from django.views.static import serve
 from students import views
 from accounts import views as account_views
+
+
+def serve_static(request, path, **kwargs):
+    """
+    Robust static file serving for serverless deployments (Vercel).
+    Checks collected staticfiles first, falls back directly to students/static.
+    """
+    static_file = os.path.join(settings.STATIC_ROOT, path)
+    if os.path.exists(static_file):
+        return serve(request, path, document_root=settings.STATIC_ROOT)
+    students_static = os.path.join(settings.BASE_DIR, 'students', 'static')
+    alt_file = os.path.join(students_static, path)
+    if os.path.exists(alt_file):
+        return serve(request, path, document_root=students_static)
+    return serve(request, path, document_root=settings.STATIC_ROOT)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +39,5 @@ urlpatterns = [
     path('login/', account_views.user_login, name='login'),
     path('signup/', account_views.signup, name='signup'),
     path('logout/', account_views.user_logout, name='logout'),
+    re_path(r'^static/(?P<path>.*)$', serve_static),
 ]
