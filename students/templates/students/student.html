@@ -8,15 +8,15 @@
         <span class="section-tag neu-tag-success">छात्र-पंजीकरणम् • Student Registry</span>
         <h2 class="section-title">Student Registration & Skill Profiling</h2>
         <p class="section-subtitle">
-            Register student credentials with verified industry skills from our standardized curriculum taxonomy.
+            Enter your student credentials and select verified industry skills to generate your personalized learning roadmap.
         </p>
     </div>
 
-    <div class="form-layout-grid">
+    <div class="form-centered-wrapper">
         <!-- Form Container -->
-        <div class="neu-card form-card">
-            <h3 class="form-card-title">New Student Profile</h3>
-            <p class="overview-subtitle">Skills must be selected strictly from the approved skills dictionary.</p>
+        <div class="neu-card form-card form-card-wide">
+            <h3 class="form-card-title">Student Profile & Skill Details</h3>
+            <p class="overview-subtitle">Select or type approved skills from our standardized curriculum taxonomy.</p>
 
             {% if form.errors %}
             <div class="form-error-alert neu-inset">
@@ -71,7 +71,7 @@
                     </datalist>
 
                     <small class="form-hint">
-                        Start typing to autocomplete from 90+ verified skills (or click pills below to insert).
+                        Type to search from 90+ verified skills (or click pills below to insert). Multiple skills can be comma-separated.
                     </small>
                     
                     {% if form.skills.errors %}
@@ -113,49 +113,11 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn neu-btn-primary form-submit-btn">
-                        Save Student Credentials
+                        Save & View Course Roadmap
                     </button>
                     <a href="{% url 'home' %}" class="btn neu-btn-secondary">Cancel</a>
                 </div>
             </form>
-        </div>
-
-        <!-- Registered Students Overview Card -->
-        <div class="neu-card students-overview-card">
-            <h3 class="form-card-title">Registered Students ({{ students|length }})</h3>
-            <p class="overview-subtitle">Live records stored in the database with verified skill tags.</p>
-
-            {% if students %}
-            <div class="students-table-wrapper neu-inset">
-                <table class="students-table">
-                    <thead>
-                        <tr>
-                            <th>Roll #</th>
-                            <th>Name</th>
-                            <th>Verified Skills</th>
-                            <th>Age</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for s in students %}
-                        <tr>
-                            <td class="roll-cell"><span class="badge-roll">#{{ s.roll_number }}</span></td>
-                            <td class="name-cell"><strong>{{ s.student_name }}</strong></td>
-                            <td class="skill-cell">
-                                <span class="badge-skill">{{ s.skills }}</span>
-                            </td>
-                            <td class="age-cell">{{ s.age }} yrs</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% else %}
-            <div class="empty-state neu-inset">
-                <h4>No Students Registered Yet</h4>
-                <p>Fill out the form on the left to add your first student record.</p>
-            </div>
-            {% endif %}
         </div>
     </div>
 </section>

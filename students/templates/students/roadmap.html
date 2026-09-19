@@ -1,0 +1,350 @@
+{% extends 'students/base.html' %}
+
+{% block title %}छात्रपथः | {{ active_roadmap.name }} Roadmap{% endblock %}
+
+{% block content %}
+<section class="content-section roadmap-page-section">
+    <!-- Breadcrumb & Header -->
+    <div class="section-header">
+        <span class="section-tag neu-tag-success">छात्रपथः • Personalized Learning Roadmap</span>
+        <h2 class="section-title">{{ active_roadmap.name }}</h2>
+        <p class="section-subtitle">
+            Tailored curriculum pathway with milestone tracking, verified video resources, and practical capstone project.
+        </p>
+    </div>
+
+    <!-- Student Profile & Course Metadata Summary Card -->
+    <div class="neu-card student-summary-bar">
+        <div class="student-meta-left">
+            <div class="student-avatar-badge neu-inset">
+                <span class="student-initial">{{ student.student_name|slice:":1"|upper }}</span>
+            </div>
+            <div class="student-info-text">
+                <h3 class="student-display-name">{{ student.student_name }}</h3>
+                <div class="student-badges-row">
+                    <span class="badge-roll">Roll #{{ student.roll_number }}</span>
+                    <span class="badge-age">Age {{ student.age }} yrs</span>
+                    <span class="badge-track">{{ active_roadmap.track }}</span>
+                    <span class="badge-level level-{{ active_roadmap.level|lower }}">{{ active_roadmap.level }}</span>
+                    <span class="badge-stage">{{ active_roadmap.stage }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="student-meta-right">
+            <a href="{% url 'add-student' %}" class="btn neu-btn-secondary btn-sm">
+                Register New Student
+            </a>
+            <button type="button" class="btn neu-btn-secondary btn-sm" onclick="window.print()">
+                Print / Save PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Multi-Skill Tabs (if student has registered more than 1 skill) -->
+    {% if roadmaps|length > 1 %}
+    <div class="skill-nav-tabs neu-card">
+        <span class="skill-nav-label">Registered Skill Paths:</span>
+        <div class="skill-tabs-container">
+            {% for rm in roadmaps %}
+            <a href="?skill={{ rm.slug }}" class="skill-tab-item {% if rm.slug == active_roadmap.slug %}active neu-inset{% else %}neu-btn{% endif %}">
+                <span class="tab-indicator"></span>
+                {{ rm.name }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Multi-Language Full Course Video Tutorials (from youtube link.py) -->
+    {% if active_roadmap.youtube_links %}
+    <div class="neu-card yt-resources-card">
+        <div class="yt-header-row">
+            <div>
+                <h4 class="yt-section-title">Verified Course Video Tutorials (Multi-Language)</h4>
+                <p class="yt-section-subtitle">Comprehensive video tutorials curated across supported languages for Chaatra Patha.</p>
+            </div>
+            <span class="yt-source-tag">YouTube Verified</span>
+        </div>
+        <div class="yt-buttons-grid">
+            {% for yt in active_roadmap.youtube_links %}
+            <a href="{{ yt.url }}" target="_blank" rel="noopener noreferrer" class="yt-lang-btn neu-btn">
+                <span class="yt-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 22c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 2c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/>
+                    </svg>
+                </span>
+                <div class="yt-lang-info">
+                    <span class="yt-lang-name">{{ yt.language_name }}</span>
+                    <span class="yt-lang-action">Watch Full Course</span>
+                </div>
+                <span class="yt-external-arrow">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M7 17l9.2-9.2M17 17V8H8"/>
+                    </svg>
+                </span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Interactive Progress Summary Bar -->
+    <div class="neu-card progress-dashboard-card">
+        <div class="progress-dashboard-header">
+            <div>
+                <span class="progress-subtext">Interactive Milestone Completion</span>
+                <h4 class="progress-title" id="progress-summary-title">0 of {{ active_roadmap.total_milestones }} Milestones Cleared</h4>
+            </div>
+            <div class="progress-percent-box neu-inset">
+                <span id="progress-percent-text">0%</span>
+            </div>
+        </div>
+
+        <div class="progress-track-outer neu-inset">
+            <div class="progress-track-fill" id="progress-track-fill" style="width: 0%;"></div>
+        </div>
+
+        <div class="progress-footer-note">
+            <span>Click the checkboxes below as you complete each topic. A green line will follow the connector showing your live progress.</span>
+            <button type="button" class="btn-text-link" id="reset-progress-btn">Reset Progress</button>
+        </div>
+    </div>
+
+    <!-- Milestone Roadmap Interactive Flow -->
+    <div class="roadmap-timeline-container">
+        <div class="roadmap-timeline" id="roadmap-timeline">
+            {% for milestone in active_roadmap.milestones %}
+            <div class="roadmap-milestone-item" id="milestone-item-{{ forloop.counter }}" data-step="{{ forloop.counter }}">
+                <!-- Left Step Indicator on Timeline -->
+                <div class="milestone-node" id="node-{{ forloop.counter }}">
+                    <span class="node-number">{{ forloop.counter }}</span>
+                    <span class="node-check-icon" style="display: none;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Vertical Connector Line Segment to Next Node (if not last item) -->
+                {% if not forloop.last %}
+                <div class="connector-segment" id="connector-{{ forloop.counter }}">
+                    <div class="connector-segment-fill" id="connector-fill-{{ forloop.counter }}"></div>
+                </div>
+                {% endif %}
+
+                <!-- Milestone Content Card -->
+                <div class="neu-card milestone-card" id="card-{{ forloop.counter }}">
+                    <div class="milestone-card-header">
+                        <div class="milestone-type-wrap">
+                            <span class="milestone-type-tag tag-{{ milestone.type|lower }}">{{ milestone.type_label }}</span>
+                            <span class="milestone-status-badge" id="status-badge-{{ forloop.counter }}">Pending</span>
+                        </div>
+
+                        <!-- Interactive Checkbox -->
+                        <div class="milestone-check-control">
+                            <label class="neu-checkbox-label" for="check-step-{{ forloop.counter }}">
+                                <input type="checkbox" 
+                                       class="neu-checkbox-input milestone-checkbox" 
+                                       id="check-step-{{ forloop.counter }}" 
+                                       data-step="{{ forloop.counter }}">
+                                <span class="neu-checkbox-custom">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </span>
+                                <span class="checkbox-caption">Mark Complete</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <h4 class="milestone-title">{{ milestone.title }}</h4>
+                    <p class="milestone-description">{{ milestone.description }}</p>
+
+                    {% if milestone.items %}
+                    <div class="milestone-subitems-wrap">
+                        <span class="subitems-label">Curriculum Focus:</span>
+                        <div class="subitems-pills">
+                            {% for item in milestone.items %}
+                            <span class="neu-subitem-pill">{{ item }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="milestone-actions">
+                        <a href="{{ milestone.video_url }}" target="_blank" rel="noopener noreferrer" class="btn neu-btn-secondary btn-sm milestone-video-btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <span>Watch Topic Tutorial</span>
+                        </a>
+                        <span class="milestone-hint-text">Estimated time: 1-2 weeks</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Final Completion Celebration Card (hidden until 100%) -->
+    <div class="neu-card completion-card neu-inset" id="completion-celebration-card" style="display: none;">
+        <div class="completion-icon-box">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        </div>
+        <div class="completion-details">
+            <h3>Course Roadmap Completed</h3>
+            <p>Congratulations! All milestones for <strong>{{ active_roadmap.name }}</strong> have been marked as completed. You are ready to showcase your capstone project in your professional portfolio.</p>
+        </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="bottom-nav-actions">
+        <a href="{% url 'student-list' %}" class="btn neu-btn-secondary">
+            Back to Student Form
+        </a>
+        <a href="{% url 'home' %}" class="btn neu-btn-primary">
+            Return to Dashboard
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const studentId = "{{ student.id }}";
+    const roadmapSlug = "{{ active_roadmap.slug }}";
+    const storageKey = 'cp_progress_' + studentId + '_' + roadmapSlug;
+
+    const checkboxes = document.querySelectorAll('.milestone-checkbox');
+    const totalSteps = checkboxes.length;
+    const progressFill = document.getElementById('progress-track-fill');
+    const progressPercentText = document.getElementById('progress-percent-text');
+    const progressSummaryTitle = document.getElementById('progress-summary-title');
+    const celebrationCard = document.getElementById('completion-celebration-card');
+    const resetBtn = document.getElementById('reset-progress-btn');
+
+    // Load saved progress from localStorage
+    function loadSavedProgress() {
+        try {
+            const raw = localStorage.getItem(storageKey);
+            return raw ? JSON.parse(raw) : {};
+        } catch (e) {
+            return {};
+        }
+    }
+
+    function saveProgress(state) {
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(state));
+        } catch (e) {}
+    }
+
+    let progressState = loadSavedProgress();
+
+    // Initialize checkboxes from saved state
+    checkboxes.forEach(cb => {
+        const step = cb.getAttribute('data-step');
+        if (progressState[step]) {
+            cb.checked = true;
+        }
+    });
+
+    // Update UI elements for a given milestone
+    function updateMilestoneUI(step, isChecked) {
+        const milestoneItem = document.getElementById('milestone-item-' + step);
+        const node = document.getElementById('node-' + step);
+        const card = document.getElementById('card-' + step);
+        const statusBadge = document.getElementById('status-badge-' + step);
+        const connectorFill = document.getElementById('connector-fill-' + step);
+
+        if (!milestoneItem || !node || !card) return;
+
+        const nodeNumber = node.querySelector('.node-number');
+        const nodeCheck = node.querySelector('.node-check-icon');
+
+        if (isChecked) {
+            milestoneItem.classList.add('is-completed');
+            node.classList.add('node-completed');
+            card.classList.add('card-completed');
+            if (nodeNumber) nodeNumber.style.display = 'none';
+            if (nodeCheck) nodeCheck.style.display = 'flex';
+            if (statusBadge) {
+                statusBadge.textContent = 'Completed';
+                statusBadge.classList.add('status-completed');
+            }
+            // Green connector follows to next node
+            if (connectorFill) {
+                connectorFill.style.height = '100%';
+            }
+        } else {
+            milestoneItem.classList.remove('is-completed');
+            node.classList.remove('node-completed');
+            card.classList.remove('card-completed');
+            if (nodeNumber) nodeNumber.style.display = 'block';
+            if (nodeCheck) nodeCheck.style.display = 'none';
+            if (statusBadge) {
+                statusBadge.textContent = 'Pending';
+                statusBadge.classList.remove('status-completed');
+            }
+            if (connectorFill) {
+                connectorFill.style.height = '0%';
+            }
+        }
+    }
+
+    // Refresh overall progress bar and celebration
+    function refreshOverallProgress() {
+        let completedCount = 0;
+        checkboxes.forEach(cb => {
+            const step = cb.getAttribute('data-step');
+            const isChecked = cb.checked;
+            updateMilestoneUI(step, isChecked);
+            if (isChecked) completedCount++;
+        });
+
+        const percent = totalSteps > 0 ? Math.round((completedCount / totalSteps) * 100) : 0;
+
+        if (progressFill) progressFill.style.width = percent + '%';
+        if (progressPercentText) progressPercentText.textContent = percent + '%';
+        if (progressSummaryTitle) {
+            progressSummaryTitle.textContent = completedCount + ' of ' + totalSteps + ' Milestones Cleared';
+        }
+
+        if (celebrationCard) {
+            celebrationCard.style.display = (completedCount === totalSteps && totalSteps > 0) ? 'flex' : 'none';
+        }
+    }
+
+    // Attach click listeners to checkboxes
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+            const step = this.getAttribute('data-step');
+            progressState[step] = this.checked;
+            saveProgress(progressState);
+            refreshOverallProgress();
+        });
+    });
+
+    // Reset button
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            if (confirm('Reset your progress on this roadmap?')) {
+                progressState = {};
+                saveProgress(progressState);
+                checkboxes.forEach(cb => cb.checked = false);
+                refreshOverallProgress();
+            }
+        });
+    }
+
+    // Initial calculation on page load
+    refreshOverallProgress();
+});
+</script>
+{% endblock %}
+

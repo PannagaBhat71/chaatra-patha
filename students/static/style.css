@@ -1149,3 +1149,674 @@ body {
         text-align: center;
     }
 }
+
+/* ==========================================================================
+   Centered Student Form Layout
+   ========================================================================== */
+.form-centered-wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.form-card-wide {
+    padding: 2.5rem 3rem;
+}
+
+@media (max-width: 640px) {
+    .form-card-wide {
+        padding: 1.75rem 1.25rem;
+    }
+}
+
+/* ==========================================================================
+   Course Roadmap & Progress Timeline Styles
+   ========================================================================== */
+.roadmap-page-section {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+/* Student Summary Bar */
+.student-summary-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.student-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.student-avatar-badge {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    flex-shrink: 0;
+}
+
+.student-display-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+}
+
+.student-badges-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.badge-age {
+    background: var(--neu-surface);
+    box-shadow: var(--neu-btn);
+    border-radius: 20px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.badge-track {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary-blue);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.badge-level {
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.level-advanced {
+    background: rgba(220, 38, 38, 0.12);
+    color: var(--danger-color);
+}
+
+.level-intermediate {
+    background: rgba(234, 88, 12, 0.12);
+    color: #ea580c;
+}
+
+.level-foundation {
+    background: rgba(22, 163, 74, 0.12);
+    color: var(--success-color);
+}
+
+.badge-stage {
+    background: var(--neu-surface);
+    box-shadow: var(--neu-inset);
+    border-radius: 20px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.student-meta-right {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+/* Multi-Skill Navigation Tabs */
+.skill-nav-tabs {
+    padding: 1.25rem 1.75rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.skill-nav-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.skill-tabs-container {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.skill-tab-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.15rem;
+    border-radius: 30px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--text-secondary);
+}
+
+.skill-tab-item.active {
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+.tab-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-blue);
+}
+
+/* Multi-Language YouTube Tutorials Card */
+.yt-resources-card {
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.yt-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.yt-section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.yt-section-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+.yt-source-tag {
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.yt-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 0.85rem;
+}
+
+.yt-lang-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+    background: var(--neu-surface);
+    box-shadow: var(--neu-btn);
+    transition: all 0.2s ease;
+}
+
+.yt-lang-btn:hover {
+    box-shadow: var(--neu-raised-hover);
+    transform: translateY(-2px);
+    color: #dc2626;
+}
+
+.yt-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #dc2626;
+    margin-right: 0.65rem;
+}
+
+.yt-lang-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.yt-lang-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.yt-lang-action {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.yt-external-arrow {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+/* Progress Dashboard */
+.progress-dashboard-card {
+    padding: 1.75rem 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.progress-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.progress-subtext {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    color: var(--text-muted);
+}
+
+.progress-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.progress-percent-box {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--success-color);
+}
+
+.progress-track-outer {
+    height: 14px;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 2px;
+    margin-bottom: 0.85rem;
+}
+
+.progress-track-fill {
+    height: 100%;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #16a34a, #22c55e);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+    transition: width 0.4s ease-in-out;
+}
+
+.progress-footer-note {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.btn-text-link {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: inherit;
+}
+
+.btn-text-link:hover {
+    color: var(--danger-color);
+}
+
+/* Roadmap Timeline & Animated Green Connector Line */
+.roadmap-timeline-container {
+    position: relative;
+    padding: 1rem 0;
+}
+
+.roadmap-timeline {
+    position: relative;
+}
+
+.roadmap-milestone-item {
+    position: relative;
+    margin-bottom: 2.2rem;
+}
+
+/* Milestone Node Circle */
+.milestone-node {
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--neu-surface);
+    box-shadow: var(--neu-btn);
+    border: 3px solid var(--neu-shadow-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    z-index: 3;
+    transition: all 0.35s ease;
+}
+
+.milestone-node.node-completed {
+    background: #16a34a;
+    border-color: #22c55e;
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
+}
+
+.node-check-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Vertical Connector Line Segment */
+.connector-segment {
+    position: absolute;
+    left: 22px;
+    top: 64px;
+    width: 6px;
+    height: calc(100% - 10px);
+    background: var(--neu-shadow-dark);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.connector-segment-fill {
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(180deg, #16a34a, #22c55e);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+    transition: height 0.4s ease-in-out;
+}
+
+/* Milestone Card */
+.milestone-card {
+    margin-left: 72px;
+    padding: 1.75rem 2rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.milestone-card.card-completed {
+    border-color: rgba(34, 197, 94, 0.35);
+    background: var(--neu-surface);
+}
+
+.milestone-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.milestone-type-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.milestone-type-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+}
+
+.tag-prerequisite {
+    background: rgba(234, 88, 12, 0.12);
+    color: #ea580c;
+}
+
+.tag-subtopic {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary-blue);
+}
+
+.tag-project {
+    background: rgba(147, 51, 234, 0.12);
+    color: #9333ea;
+}
+
+.milestone-status-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    background: var(--neu-surface);
+    box-shadow: var(--neu-inset);
+    color: var(--text-muted);
+}
+
+.milestone-status-badge.status-completed {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--success-color);
+    font-weight: 700;
+}
+
+/* Custom Neumorphic Checkbox */
+.milestone-check-control {
+    display: flex;
+    align-items: center;
+}
+
+.neu-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.neu-checkbox-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.neu-checkbox-custom {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--neu-surface);
+    box-shadow: var(--neu-btn);
+    border: 1.5px solid var(--neu-shadow-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    transition: all 0.2s ease;
+}
+
+.neu-checkbox-input:checked + .neu-checkbox-custom {
+    background: #16a34a;
+    border-color: #22c55e;
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.45);
+}
+
+.checkbox-caption {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.neu-checkbox-input:checked ~ .checkbox-caption {
+    color: var(--success-color);
+}
+
+.milestone-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.milestone-description {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.milestone-subitems-wrap {
+    margin-bottom: 1.25rem;
+}
+
+.subitems-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+.subitems-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.neu-subitem-pill {
+    background: var(--neu-surface);
+    box-shadow: var(--neu-inset);
+    border-radius: 6px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.milestone-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--nav-border);
+}
+
+.milestone-video-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.milestone-hint-text {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* Completion Celebration Card */
+.completion-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 2.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 2px solid rgba(34, 197, 94, 0.4);
+    background: var(--success-bg);
+}
+
+.completion-icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--neu-surface);
+    box-shadow: var(--neu-btn);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.completion-details h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--success-color);
+    margin-bottom: 0.35rem;
+}
+
+.completion-details p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Bottom Nav Actions */
+.bottom-nav-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+    .milestone-card {
+        margin-left: 58px;
+        padding: 1.25rem 1rem;
+    }
+    .milestone-node {
+        width: 42px;
+        height: 42px;
+        font-size: 0.95rem;
+    }
+    .connector-segment {
+        left: 18px;
+        top: 56px;
+    }
+    .student-summary-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .student-meta-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+

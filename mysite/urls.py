@@ -27,6 +27,8 @@ urlpatterns = [
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('student/', views.add_student, name='student-list'),
     path('student/add/', views.add_student, name='add-student'),
+    path('roadmap/<int:student_id>/', views.student_roadmap, name='student-roadmap'),
+    path('roadmap/', views.roadmap_preview, name='roadmap'),
     path('accounts/', include('accounts.urls')),
     path('login/', account_views.user_login, name='login'),
     path('signup/', account_views.signup, name='signup'),
