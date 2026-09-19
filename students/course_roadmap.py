@@ -54,6 +54,208 @@ COURSE_VIDEO_IDS = {
     "compliance": "yYX4bS44n3E",
 }
 
+# Curated content-specific YouTube video mapping for subtopics, prerequisites & capstone projects
+SUBTOPIC_VIDEOS = {
+    # Cybersecurity subtopics
+    "security principles": "bPVaOlJ6ln0",
+    "cia triad": "bPVaOlJ6ln0",
+    "threat modeling": "k0v21K6kY0M",
+    "authentication & iam": "SLwpqD_F1lA",
+    "iam": "SLwpqD_F1lA",
+    "network security": "kDEX1HXybrk",
+    "firewalls": "kDEX1HXybrk",
+    "app security": "2_lswM1S264",
+    "owasp": "2_lswM1S264",
+    "risk assessment": "P2MydR2UjI8",
+
+    # Machine Learning subtopics
+    "supervised learning": "ukzFI9rgwfU",
+    "unsupervised learning": "Iqy77mQp56c",
+    "clustering": "Iqy77mQp56c",
+    "decision trees": "7VeUPuFG444",
+    "random forests": "7VeUPuFG444",
+    "model evaluation": "wpQi640oxpo",
+    "overfitting": "DEMKGeyv5io",
+    "scikit-learn": "0Lt9w-BxKFQ",
+
+    # DevOps subtopics
+    "devops culture": "scEDHsr3APg",
+    "ci/cd": "R8_veQiYWrI",
+    "jenkins": "R8_veQiYWrI",
+    "github actions": "R8_veQiYWrI",
+    "containerization": "fqMOX6JJhGo",
+    "docker": "fqMOX6JJhGo",
+    "orchestration": "X48VuDVv0do",
+    "kubernetes": "X48VuDVv0do",
+    "infrastructure as code": "7xngnjfIlK4",
+    "terraform": "7xngnjfIlK4",
+    "monitoring": "h4Sl21AKkDg",
+    "prometheus": "h4Sl21AKkDg",
+
+    # Mobile App Dev subtopics
+    "mobile ui/ux": "yPt4y_z1x6E",
+    "cross-platform": "VPvVD8t02U8",
+    "flutter": "VPvVD8t02U8",
+    "react native": "0-S5a0eXPoc",
+    "navigation & routing": "Fv0xLq9g1uQ",
+    "state management": "3tm-4Av7LVE",
+    "consuming apis": "12tcxZ0x_dE",
+    "app store deployment": "4jZf94r_Y5g",
+
+    # QA & Testing subtopics
+    "testing fundamentals": "sO8eGL6QVUw",
+    "unit testing": "1Lfv5tUGsn8",
+    "integration testing": "EZ05e7EMOL4",
+    "writing test cases": "bJb9WfT4b_M",
+    "test automation": "l2zXj5xK_7k",
+    "selenium": "l2zXj5xK_7k",
+    "bug reporting": "98qf_41GZps",
+    "jira": "98qf_41GZps",
+
+    # Blockchain subtopics
+    "distributed ledgers": "gyMwXuJrbJQ",
+    "hashing & cryptography": "b4b8ktEV4Bg",
+    "consensus mechanisms": "k5pM6K4G7iA",
+    "smart contracts": "M576WGiDBdQ",
+    "solidity": "M576WGiDBdQ",
+    "wallets & transactions": "nHhAEkG1y2U",
+    "web3": "nHhAEkG1y2U",
+
+    # IoT subtopics
+    "iot architecture": "6mBO2vqLv38",
+    "sensors & actuators": "8G8y-Q2H61M",
+    "microcontrollers": "nL34z54G830",
+    "arduino": "nL34z54G830",
+    "raspberry pi": "nL34z54G830",
+    "iot protocols": "EIxdz-2rhLs",
+    "mqtt": "EIxdz-2rhLs",
+    "edge computing": "lYm4r40y8eY",
+    "iot security": "y3jW2X0q_90",
+
+    # Prompt Engineering subtopics
+    "llm architecture": "_ZvnD73m40o",
+    "zero-shot": "jC4v5AS4RIM",
+    "few-shot": "jC4v5AS4RIM",
+    "chain of thought": "dQr4w7r8U4o",
+    "system prompts": "BP46xO_h70E",
+    "prompt injection": "v9n0o1643Z8",
+    "output formatting": "1KSm0a3q2mI",
+
+    # Server Maintenance & Software Architecture subtopics
+    "server hardening": "kGY8e658y28",
+    "patch management": "o4r5b0G_gZg",
+    "log aggregation": "XmE7v-M_Zz8",
+    "load balancing": "K0Ta65OqQk8",
+    "high availability": "K0Ta65OqQk8",
+    "disaster recovery": "7N_yE_eFj3k",
+    "monolith vs microservices": "77flD_3F3kU",
+    "microservices": "77flD_3F3kU",
+    "event-driven architecture": "STKCRSUsyP0",
+    "caching strategies": "oaJq1hkMXPU",
+    "redis": "oaJq1hkMXPU",
+    "database sharding": "5faMjKuB9bc",
+    "system scalability": "xpPnAAAm07k",
+    "design patterns": "tv-_1er1mWI",
+
+    # Data & Analytics subtopics
+    "sql basics": "HXV3zeRR3h4",
+    "sql joins": "9yeOJ0ZMUYw",
+    "relational database": "HXV3zeRR3h4",
+    "data analysis": "r-uOLxNrNk8",
+    "pandas": "vmEHCJofslg",
+    "data cleaning": "r-uOLxNrNk8",
+    "data visualization": "ztnT3_T-p4A",
+    "tableau": "aHaOIvR00So",
+    "power bi": "TmhQCQrsmv4",
+    "statistical analysis": "xxpc-HPKN28",
+    "hypothesis testing": "xxpc-HPKN28",
+    "big data": "1vbXmCrkT3Y",
+    "hadoop": "1vbXmCrkT3Y",
+    "spark": "kZ_QJcW5540",
+    "data engineering": "kZ_QJcW5540",
+    "predictive modeling": "i_LwzRVP7bg",
+    "business intelligence": "ztnT3_T-p4A",
+
+    # Marketing, Sales & Finance subtopics
+    "seo": "DvwS7cV9GmQ",
+    "search engine optimization": "DvwS7cV9GmQ",
+    "sem": "045k286E95g",
+    "ppc": "045k286E95g",
+    "content marketing": "x_0gT4S2_uY",
+    "copywriting": "Xn_7U7c4tA0",
+    "social media": "c8wS0s3eG74",
+    "email marketing": "z8iE2y1Y3iI",
+    "financial accounting": "yYX4bS44n3E",
+    "budgeting": "yYX4bS44n3E",
+    "inventory control": "yYX4bS44n3E",
+    "supply chain": "yYX4bS44n3E",
+}
+
+# Domain educational pool ensuring every milestone receives a unique verified video ID
+FALLBACK_UNIQUE_VIDEOS = [
+    "rfscVS0vtbw", "7vhms8lq4aA", "Z1Yd7up3560", "G9SZa_rGZcI",
+    "ukzFI9rgwfU", "Iqy77mQp56c", "7VeUPuFG444", "wpQi640oxpo",
+    "fqMOX6JJhGo", "X48VuDVv0do", "7xngnjfIlK4", "h4Sl21AKkDg",
+    "sO8eGL6QVUw", "1Lfv5tUGsn8", "EZ05e7EMOL4", "l2zXj5xK_7k",
+    "bPVaOlJ6ln0", "k0v21K6kY0M", "SLwpqD_F1lA", "kDEX1HXybrk",
+    "2_lswM1S264", "P2MydR2UjI8", "HXV3zeRR3h4", "9yeOJ0ZMUYw",
+    "r-uOLxNrNk8", "ztnT3_T-p4A", "xxpc-HPKN28", "1vbXmCrkT3Y",
+    "a_fA3Q_Z61Y", "8S0FDjFBj8o", "kJEs2ZfL7bQ", "p33CVuG8q2A",
+]
+
+
+def resolve_milestone_video(course_slug, milestone_type, title, step_index, used_video_ids):
+    """
+    Returns a distinct, topic-specific verified YouTube video ID for each milestone,
+    guaranteeing that no two milestones in the same course roadmap display the same video.
+    """
+    low_title = title.lower()
+    candidate_id = None
+
+    # 1. Check direct topic keywords
+    for keyword, vid_id in SUBTOPIC_VIDEOS.items():
+        if keyword in low_title:
+            if vid_id not in used_video_ids:
+                candidate_id = vid_id
+                break
+
+    # 2. Prerequisite video selection
+    if not candidate_id and milestone_type == "PREREQUISITE":
+        prereq_pool = ["7vhms8lq4aA", "Z1Yd7up3560", "G9SZa_rGZcI", "rfscVS0vtbw"]
+        for pid in prereq_pool:
+            if pid not in used_video_ids:
+                candidate_id = pid
+                break
+
+    # 3. Capstone Project video selection
+    if not candidate_id and milestone_type == "PROJECT":
+        project_pool = ["a_fA3Q_Z61Y", "8S0FDjFBj8o", "kJEs2ZfL7bQ", "p33CVuG8q2A"]
+        for pjid in project_pool:
+            if pjid not in used_video_ids:
+                candidate_id = pjid
+                break
+
+    # 4. Check course primary video if not yet used
+    if not candidate_id:
+        c_video = COURSE_VIDEO_IDS.get(course_slug)
+        if c_video and c_video not in used_video_ids:
+            candidate_id = c_video
+
+    # 5. Deterministic unique fallback from educational pool
+    if not candidate_id:
+        offset = (abs(hash(f"{course_slug}-{title}")) + step_index) % len(FALLBACK_UNIQUE_VIDEOS)
+        for i in range(len(FALLBACK_UNIQUE_VIDEOS)):
+            cand = FALLBACK_UNIQUE_VIDEOS[(offset + i) % len(FALLBACK_UNIQUE_VIDEOS)]
+            if cand not in used_video_ids:
+                candidate_id = cand
+                break
+
+    if not candidate_id:
+        candidate_id = FALLBACK_UNIQUE_VIDEOS[step_index % len(FALLBACK_UNIQUE_VIDEOS)]
+
+    used_video_ids.add(candidate_id)
+    return candidate_id
+
 
 def get_base_dir():
     try:
@@ -214,6 +416,7 @@ def get_roadmap_for_skill(skill_input):
     # Prepare structured milestones list with video verification metadata
     milestones = []
     step_counter = 1
+    used_video_ids = set()
 
     # 1. Prerequisite Milestone
     prereqs = course_data.get("prerequisites", [])
@@ -226,6 +429,9 @@ def get_roadmap_for_skill(skill_input):
                 prereq_names.append(p.replace("-", " ").title())
 
         query = f"{course_data.get('name')} prerequisites tutorial"
+        prereq_video_id = resolve_milestone_video(
+            matched_slug, "PREREQUISITE", "Foundation & Prerequisites", step_counter, used_video_ids
+        )
         milestones.append({
             "step": step_counter,
             "id": f"step-{step_counter}",
@@ -235,7 +441,7 @@ def get_roadmap_for_skill(skill_input):
             "description": f"Recommended preliminary mastery: {', '.join(prereq_names)}.",
             "items": prereq_names,
             "video_url": f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}",
-            "video_id": course_video_id,
+            "video_id": prereq_video_id,
             "required_watch_pct": 80,
         })
         step_counter += 1
@@ -244,6 +450,9 @@ def get_roadmap_for_skill(skill_input):
     subtopics = course_data.get("subtopics", [])
     for idx, subtopic in enumerate(subtopics, 1):
         query = f"{course_data.get('name')} {subtopic} tutorial"
+        subtopic_video_id = resolve_milestone_video(
+            matched_slug, "SUBTOPIC", subtopic, step_counter, used_video_ids
+        )
         milestones.append({
             "step": step_counter,
             "id": f"step-{step_counter}",
@@ -253,7 +462,7 @@ def get_roadmap_for_skill(skill_input):
             "description": f"Detailed exploration and mastery of {subtopic}.",
             "items": [],
             "video_url": f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}",
-            "video_id": course_video_id,
+            "video_id": subtopic_video_id,
             "required_watch_pct": 80,
         })
         step_counter += 1
@@ -262,6 +471,9 @@ def get_roadmap_for_skill(skill_input):
     project_desc = course_data.get("project", "")
     if project_desc:
         query = f"{course_data.get('name')} capstone project tutorial build and deploy"
+        project_video_id = resolve_milestone_video(
+            matched_slug, "PROJECT", "Hands-On Capstone Project", step_counter, used_video_ids
+        )
         milestones.append({
             "step": step_counter,
             "id": f"step-{step_counter}",
@@ -271,7 +483,7 @@ def get_roadmap_for_skill(skill_input):
             "description": project_desc,
             "items": ["Requirements Analysis", "Implementation", "Testing & Verification", "Portfolio Showcase"],
             "video_url": f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}",
-            "video_id": course_video_id,
+            "video_id": project_video_id,
             "required_watch_pct": 80,
         })
 

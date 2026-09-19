@@ -10,7 +10,7 @@ class CustomUserCreationForm(UserCreationForm):
         widgets = {
             'username': forms.TextInput(attrs={
                 'class': 'neu-input',
-                'placeholder': 'Enter your username',
+                'placeholder': 'Choose a username',
                 'autocomplete': 'username',
             }),
             'email': forms.EmailInput(attrs={
@@ -29,17 +29,39 @@ class CustomUserCreationForm(UserCreationForm):
                     'placeholder': 'Enter password' if field_name == 'password1' else 'Confirm password',
                 })
 
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username:
+            return username.strip()
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email:
+            return email.strip().lower()
+        return email
+
 
 class CustomLoginForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({
+    username = forms.CharField(
+        label="Username or Email",
+        widget=forms.TextInput(attrs={
             'class': 'neu-input',
-            'placeholder': 'Enter your username',
+            'placeholder': 'Enter username or email address',
             'autocomplete': 'username',
         })
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.fields['password'].widget.attrs.update({
             'class': 'neu-input',
             'placeholder': 'Enter your password',
             'autocomplete': 'current-password',
         })
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username:
+            return username.strip()
+        return username

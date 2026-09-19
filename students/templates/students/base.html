@@ -27,15 +27,24 @@
             </nav>
 
             <div class="nav-actions">
+                <!-- Language Preference Selector Button -->
+                <button id="language-toggle-btn" class="language-toggle-btn neu-btn" aria-label="Choose Language" title="Choose Language">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <span id="nav-lang-display">Language: English</span>
+                </button>
                 <!-- Night Mode / Light Mode Toggle Button -->
                 <button id="theme-toggle" class="theme-toggle-btn neu-btn" aria-label="Toggle Theme" title="Toggle Theme">
                     <span id="theme-mode-text">Dark Mode</span>
                 </button>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}" class="btn neu-btn-outline">Log Out</a>
+                    <a href="{% url 'logout' %}" class="btn neu-btn-outline" id="nav-logout-btn">Log Out</a>
                 {% else %}
-                    <a href="{% url 'login' %}" class="btn neu-btn-outline">Log In</a>
-                    <a href="{% url 'signup' %}" class="btn neu-btn-primary">Sign Up</a>
+                    <a href="{% url 'login' %}" class="btn neu-btn-outline" id="nav-login-btn">Log In</a>
+                    <a href="{% url 'signup' %}" class="btn neu-btn-primary" id="nav-signup-btn">Sign Up</a>
                 {% endif %}
             </div>
         </div>
@@ -329,6 +338,662 @@
             }
         })();
     </script>
+    <!-- ==========================================================================
+         Language Preference Alterbox Modal Dialog (Zero Emojis, Neumorphic)
+         ========================================================================== -->
+    <div id="language-modal-backdrop" class="language-modal-backdrop" style="display: none;">
+        <div class="language-modal-card neu-card" role="dialog" aria-modal="true" aria-labelledby="lang-modal-title">
+            <div class="language-modal-header">
+                <div class="language-modal-header-text">
+                    <span class="language-modal-tag neu-tag-success">Language Preference</span>
+                    <h3 id="lang-modal-title" class="language-modal-title">Select Your Preferred Language</h3>
+                    <p id="lang-modal-subtitle" class="language-modal-subtitle">
+                        Choose your preferred language for Chaatra Patha. The entire application and interface will adapt to your selected language.
+                    </p>
+                </div>
+                <button type="button" id="close-lang-modal-btn" class="lang-close-btn" aria-label="Close Language Dialog">&times;</button>
+            </div>
+
+            <div class="language-options-grid" id="language-options-grid">
+                <button type="button" class="lang-option-card neu-btn active" data-lang="en">
+                    <span class="lang-native-name">English</span>
+                    <span class="lang-english-name">English (Default)</span>
+                    <span class="lang-select-dot"></span>
+                </button>
+                <button type="button" class="lang-option-card neu-btn" data-lang="hi">
+                    <span class="lang-native-name">हिन्दी</span>
+                    <span class="lang-english-name">Hindi</span>
+                    <span class="lang-select-dot"></span>
+                </button>
+                <button type="button" class="lang-option-card neu-btn" data-lang="kn">
+                    <span class="lang-native-name">ಕನ್ನಡ</span>
+                    <span class="lang-english-name">Kannada</span>
+                    <span class="lang-select-dot"></span>
+                </button>
+                <button type="button" class="lang-option-card neu-btn" data-lang="ml">
+                    <span class="lang-native-name">മലയാളം</span>
+                    <span class="lang-english-name">Malayalam</span>
+                    <span class="lang-select-dot"></span>
+                </button>
+                <button type="button" class="lang-option-card neu-btn" data-lang="fr">
+                    <span class="lang-native-name">Français</span>
+                    <span class="lang-english-name">French</span>
+                    <span class="lang-select-dot"></span>
+                </button>
+                <button type="button" class="lang-option-card neu-btn" data-lang="sa">
+                    <span class="lang-native-name">संस्कृतम्</span>
+                    <span class="lang-english-name">Sanskrit</span>
+                    <span class="lang-select-dot"></span>
+                </button>
+            </div>
+
+            <div class="language-modal-footer">
+                <span class="language-status-note" id="language-status-note">Your preference will be applied and remembered across pages.</span>
+                <button type="button" id="apply-lang-btn" class="btn neu-btn-primary">Apply Language</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden container for optional dynamic website translation -->
+    <div id="google_translate_element" style="display:none;"></div>
+
+    <!-- Multilingual UI Dictionary and Page Translation Controller -->
+    <script>
+        (function() {
+            // Master translation dictionary for key UI components across 6 languages
+            const TRANSLATIONS = {
+                en: {
+                    langName: "English",
+                    home: "Home",
+                    studentsForm: "Students Form",
+                    about: "About",
+                    aboutUs: "About Us",
+                    contact: "Contact",
+                    contactSupport: "Contact & Support",
+                    darkMode: "Dark Mode",
+                    lightMode: "Light Mode",
+                    logIn: "Log In",
+                    signUp: "Sign Up",
+                    logOut: "Log Out",
+                    language: "Language",
+                    tagline: "The Guided Pathway to Skill Mastery",
+                    brandDesc: "Empowering passionate students across the globe by replacing fragmented tutorials with verified, milestone-based skill roadmaps.",
+                    quickNav: "Quick Navigation",
+                    skillRoadmaps: "Skill Roadmaps",
+                    studentResources: "Student Resources",
+                    privacyPolicy: "Privacy Policy",
+                    termsOfService: "Terms of Service",
+                    openSource: "Open Source",
+                    copyright: "Built with pride for student excellence.",
+                    selectLangTitle: "Select Your Preferred Language",
+                    selectLangSubtitle: "Choose your preferred language for Chaatra Patha. The entire application and interface will adapt to your selected language.",
+                    applyLang: "Apply Language",
+                    prefSaved: "Your preference will be applied and remembered across pages.",
+                    regNewStudent: "Register New Student",
+                    printSavePdf: "Print / Save PDF",
+                    resetProgress: "Reset Progress",
+                    watchAuthVideo: "Watch & Authenticate Video",
+                    markComplete: "Mark Complete",
+                    watchRequiredNote: "Watch >= 80% to check box",
+                    requires80: "Requires 80% Video Watch",
+                    authVerified: "Video Watch Verified (>=80%)",
+                    pending: "Pending",
+                    completed: "Completed",
+                    prereqCheck: "Prerequisite Check",
+                    prereqTitle: "Foundation & Prerequisites",
+                    capstoneTitle: "Hands-On Capstone Project",
+                    capstoneType: "Capstone Project",
+                    roadmapCompleteTitle: "Course Roadmap Completed",
+                    roadmapCompleteDesc: "Congratulations! All milestones have been verified with 80%+ video completion and marked complete.",
+                    backToForm: "Back to Student Form",
+                    returnDashboard: "Return to Dashboard",
+                    studentName: "Student Name",
+                    rollNumber: "Roll Number",
+                    age: "Age",
+                    skills: "Skills",
+                    submit: "Submit",
+                    reset: "Reset",
+                    usernameOrEmail: "Username or Email",
+                    password: "Password",
+                    chooseUsername: "Choose a username",
+                    enterPassword: "Enter your password",
+                    confirmPassword: "Confirm password",
+                    signInToAccount: "Sign in to your Chaatra Patha account",
+                    createAccount: "Create Your Chaatra Patha Account",
+                    advisorGreeting: "Welcome to Chaatra Patha! I am your curriculum advisor.",
+                    askAdvisorPlaceholder: "Ask about skills, courses, or SMS..."
+                },
+                hi: {
+                    langName: "हिन्दी",
+                    home: "होम",
+                    studentsForm: "छात्र फॉर्म",
+                    about: "परिचय",
+                    aboutUs: "हमारे बारे में",
+                    contact: "संपर्क",
+                    contactSupport: "संपर्क एवं सहायता",
+                    darkMode: "डार्क मोड",
+                    lightMode: "लाइट मोड",
+                    logIn: "लॉग इन",
+                    signUp: "साइन अप",
+                    logOut: "लॉग आउट",
+                    language: "भाषा",
+                    tagline: "कौशल निपुणता का निर्देशित पथ",
+                    brandDesc: "सत्यापित, मील का पत्थर आधारित कौशल रोडमैप के साथ छात्रों को सशक्त बनाना।",
+                    quickNav: "त्वरित नेविगेशन",
+                    skillRoadmaps: "कौशल रोडमैप",
+                    studentResources: "छात्र संसाधन",
+                    privacyPolicy: "गोपनीयता नीति",
+                    termsOfService: "सेवा की शर्तें",
+                    openSource: "ओपन सोर्स",
+                    copyright: "छात्र उत्कृष्टता के लिए गर्व से निर्मित।",
+                    selectLangTitle: "अपनी पसंदीदा भाषा चुनें",
+                    selectLangSubtitle: "छात्रपथः के लिए अपनी भाषा प्राथमिकता चुनें। पूरा पृष्ठ और इंटरफ़ेस आपकी चुनी हुई भाषा में रूपांतरित होगा।",
+                    applyLang: "भाषा लागू करें",
+                    prefSaved: "आपकी पसंद सभी पृष्ठों पर स्वचालित रूप से सहेजी जाएगी।",
+                    regNewStudent: "नया छात्र पंजीकृत करें",
+                    printSavePdf: "प्रिंट / पीडीएफ सहेजें",
+                    resetProgress: "प्रगति रीसेट करें",
+                    watchAuthVideo: "वीडियो देखें और प्रमाणित करें",
+                    markComplete: "पूर्ण चिह्नित करें",
+                    watchRequiredNote: "बॉक्स चेक करने के लिए 80% या अधिक देखें",
+                    requires80: "80% वीडियो देखना अनिवार्य है",
+                    authVerified: "वीडियो सत्यापन पूर्ण (>=80%)",
+                    pending: "लंबित",
+                    completed: "पूर्ण",
+                    prereqCheck: "पूर्वपेक्षा जाँच",
+                    prereqTitle: "नींव और पूर्वपेक्षाएँ",
+                    capstoneTitle: "व्यावहारिक कैपस्टोन परियोजना",
+                    capstoneType: "कैपस्टोन परियोजना",
+                    roadmapCompleteTitle: "पाठ्यक्रम रोडमैप पूर्ण हुआ",
+                    roadmapCompleteDesc: "बधाई हो! सभी मील के पत्थर 80%+ वीडियो पूर्णता के साथ सत्यापित और पूर्ण हो चुके हैं।",
+                    backToForm: "छात्र फॉर्म पर वापस जाएं",
+                    returnDashboard: "डैशबोर्ड पर वापस जाएं",
+                    studentName: "छात्र का नाम",
+                    rollNumber: "रोल नंबर",
+                    age: "आयु",
+                    skills: "कौशल",
+                    submit: "जमा करें",
+                    reset: "रीसेट",
+                    usernameOrEmail: "उपयोगकर्ता नाम या ईमेल",
+                    password: "पासवर्ड",
+                    chooseUsername: "उपयोगकर्ता नाम चुनें",
+                    enterPassword: "पासवर्ड दर्ज करें",
+                    confirmPassword: "पासवर्ड की पुष्टि करें",
+                    signInToAccount: "अपने छात्रपथः खाते में प्रवेश करें",
+                    createAccount: "अपना छात्रपथः खाता बनाएं",
+                    advisorGreeting: "छात्रपथः में आपका स्वागत है! मैं आपका पाठ्यक्रम सलाहकार हूँ।",
+                    askAdvisorPlaceholder: "कौशल, पाठ्यक्रम या एसएमएस के बारे में पूछें..."
+                },
+                kn: {
+                    langName: "ಕನ್ನಡ",
+                    home: "ಮುಖಪುಟ",
+                    studentsForm: "ವಿದ್ಯಾರ್ಥಿ ನಮೂನೆ",
+                    about: "ವಿವರಣೆ",
+                    aboutUs: "ನಮ್ಮ ಬಗ್ಗೆ",
+                    contact: "ಸಂಪರ್ಕ",
+                    contactSupport: "ಸಂಪರ್ಕ ಮತ್ತು ಬೆಂಬಲ",
+                    darkMode: "ಡಾರ್ಕ್ ಮೋಡ್",
+                    lightMode: "ಲೈಟ್ ಮೋಡ್",
+                    logIn: "ಲಾಗಿನ್",
+                    signUp: "ಸೈನ್ ಅಪ್",
+                    logOut: "ಲಾಗ್ ಔಟ್",
+                    language: "ಭಾಷೆ",
+                    tagline: "ಕೌಶಲ್ಯ ನೈಪುಣ್ಯದ ಮಾರ್ಗದರ್ಶಿ ಪಥ",
+                    brandDesc: "ದೃಢೀಕೃತ ಕಲಿಕಾ ಮಾರ್ಗಸೂಚಿಗಳ ಮೂಲಕ ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಕೌಶಲ್ಯಪೂರ್ಣ ಭವಿಷ್ಯವನ್ನು ನಿರ್ಮಿಸುವುದು.",
+                    quickNav: "ತ್ವರಿತ ನ್ಯಾವಿಗೇಷನ್",
+                    skillRoadmaps: "ಕೌಶಲ್ಯ ಮಾರ್ಗಸೂಚಿಗಳು",
+                    studentResources: "ವಿದ್ಯಾರ್ಥಿ ಸಂಪನ್ಮೂಲಗಳು",
+                    privacyPolicy: "ಗೌಪ್ಯತಾ ನೀತಿ",
+                    termsOfService: "ಸೇವಾ ನಿಯಮಗಳು",
+                    openSource: "ಮುಕ್ತ ಮೂಲ",
+                    copyright: "ವಿದ್ಯಾರ್ಥಿ ಶ್ರೇಷ್ಠತೆಗಾಗಿ ಹೆಮ್ಮೆಯಿಂದ ರಚಿಸಲಾಗಿದೆ.",
+                    selectLangTitle: "ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+                    selectLangSubtitle: "ಛಾತ್ರಪಥಕ್ಕಾಗಿ ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆರಿಸಿ. ಸಂಪೂರ್ಣ ಪುಟ ಮತ್ತು ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ ನಿಮ್ಮ ಭಾಷೆಗೆ ಬದಲಾಗುತ್ತದೆ.",
+                    applyLang: "ಭಾಷೆ ಅನ್ವಯಿಸಿ",
+                    prefSaved: "ನಿಮ್ಮ ಆಯ್ಕೆಯು ಎಲ್ಲಾ ಪುಟಗಳಲ್ಲಿ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನೆನಪಿಡಲ್ಪಡುತ್ತದೆ.",
+                    regNewStudent: "ಹೊಸ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ನೋಂದಾಯಿಸಿ",
+                    printSavePdf: "ಮುದ್ರಿಸಿ / ಪಿಡಿಎಫ್ ಉಳಿಸಿ",
+                    resetProgress: "ಪ್ರಗತಿಯನ್ನು ಮರುಹೊಂದಿಸಿ",
+                    watchAuthVideo: "ವೀಡಿಯೊ ವೀಕ್ಷಿಸಿ ದೃಢೀಕರಿಸಿ",
+                    markComplete: "ಪೂರ್ಣವೆಂದು ಗುರುತಿಸಿ",
+                    watchRequiredNote: "ಬಾಕ್ಸ್ ಗುರುತಿಸಲು 80% ಕ್ಕಿಂತ ಹೆಚ್ಚು ವೀಕ್ಷಿಸಿ",
+                    requires80: "80% ವೀಡಿಯೊ ವೀಕ್ಷಣೆ ಅಗತ್ಯವಿದೆ",
+                    authVerified: "ವೀಡಿಯೊ ವೀಕ್ಷಣೆ ದೃಢೀಕರಿಸಲಾಗಿದೆ (>=80%)",
+                    pending: "ಬಾಕಿ ಉಳಿದಿದೆ",
+                    completed: "ಪೂರ್ಣಗೊಂಡಿದೆ",
+                    prereqCheck: "ಪೂರ್ವಾಪೇಕ್ಷಿತ ಪರಿಶೀಲನೆ",
+                    prereqTitle: "ಮೂಲಭೂತ ಮತ್ತು ಪೂರ್ವಾಪೇಕ್ಷಿತಗಳು",
+                    capstoneTitle: "ಪ್ರಾಯೋಗಿಕ ಕ್ಯಾಪ್ಸ್ಟೋನ್ ಯೋಜನೆ",
+                    capstoneType: "ಕ್ಯಾಪ್ಸ್ಟೋನ್ ಯೋಜನೆ",
+                    roadmapCompleteTitle: "ಕೋರ್ಸ್ ಮಾರ್ಗಸೂಚಿ ಪೂರ್ಣಗೊಂಡಿದೆ",
+                    roadmapCompleteDesc: "ಅಭಿನಂದನೆಗಳು! ಎಲ್ಲಾ ಹಂತಗಳು 80%+ ವೀಡಿಯೊ ಪೂರ್ಣತೆಯೊಂದಿಗೆ ದೃಢೀಕರಿಸಲ್ಪಟ್ಟು ಪೂರ್ಣಗೊಂಡಿವೆ.",
+                    backToForm: "ವಿದ್ಯಾರ್ಥಿ ನಮೂನೆಗೆ ಹಿಂತಿರುಗಿ",
+                    returnDashboard: "ಡ್ಯಾಶ್ಬೋರ್ಡ್ಗೆ ಹಿಂತಿರುಗಿ",
+                    studentName: "ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು",
+                    rollNumber: "ರೋಲ್ ಸಂಖ್ಯೆ",
+                    age: "ವಯಸ್ಸು",
+                    skills: "ಕೌಶಲ್ಯಗಳು",
+                    submit: "ಸಲ್ಲಿಸಿ",
+                    reset: "ಮರುಹೊಂದಿಸಿ",
+                    usernameOrEmail: "ಬಳಕೆದಾರ ಹೆಸರು ಅಥವಾ ಇಮೇಲ್",
+                    password: "ಪಾಸ್ವರ್ಡ್",
+                    chooseUsername: "ಬಳಕೆದಾರ ಹೆಸರನ್ನು ಆರಿಸಿ",
+                    enterPassword: "ಪಾಸ್ವರ್ಡ್ ನಮೂದಿಸಿ",
+                    confirmPassword: "ಪಾಸ್ವರ್ಡ್ ದೃಢೀಕರಿಸಿ",
+                    signInToAccount: "ನಿಮ್ಮ ಛಾತ್ರಪಥ ಖಾತೆಗೆ ಪ್ರವೇಶಿಸಿ",
+                    createAccount: "ನಿಮ್ಮ ಛಾತ್ರಪಥ ಖಾತೆಯನ್ನು ರಚಿಸಿ",
+                    advisorGreeting: "ಛಾತ್ರಪಥಕ್ಕೆ ಸುಸ್ವಾಗತ! ನಾನು ನಿಮ್ಮ ಪಠ್ಯಕ್ರಮ ಸಲಹೆಗಾರ.",
+                    askAdvisorPlaceholder: "ಕೌಶಲ್ಯಗಳು ಅಥವಾ ಕೋರ್ಸ್‌ಗಳ ಬಗ್ಗೆ ಕೇಳಿ..."
+                },
+                ml: {
+                    langName: "മലയാളം",
+                    home: "ഹോം",
+                    studentsForm: "വിദ്യാർത്ഥി ഫോം",
+                    about: "വിവരണം",
+                    aboutUs: "ഞങ്ങളെ കുറിച്ച്",
+                    contact: "ബന്ധപ്പെടുക",
+                    contactSupport: "ബന്ധപ്പെടുക & പിന്തുണ",
+                    darkMode: "ഡാർക്ക് മോഡ്",
+                    lightMode: "ലൈറ്റ് മോഡ്",
+                    logIn: "ലോഗിൻ",
+                    signUp: "സൈൻ അപ്പ്",
+                    logOut: "ലോഗ് ഔട്ട്",
+                    language: "ഭാഷ",
+                    tagline: "നൈപുണ്യ പ്രാവിണ്യത്തിലേക്കുള്ള വഴികാട്ടി",
+                    brandDesc: "ലക്ഷ്യബോധമുള്ള റോഡ്മാപ്പുകളിലൂടെ വിദ്യാർത്ഥികളെ ശാക്തീകരിക്കുന്നു.",
+                    quickNav: "ദ്രുത നാവിഗേഷൻ",
+                    skillRoadmaps: "നൈപുണ്യ റോഡ്മാപ്പുകൾ",
+                    studentResources: "വിദ്യാർത്ഥി വിഭവങ്ങൾ",
+                    privacyPolicy: "സ്വകാര്യതാ നയം",
+                    termsOfService: "സേവന നിബന്ധനകൾ",
+                    openSource: "ഓപ്പൺ സോഴ്സ്",
+                    copyright: "വിദ്യാർത്ഥി മികവിനായി അഭിമാനത്തോടെ നിർമ്മിച്ചത്.",
+                    selectLangTitle: "നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ഭാഷ",
+                    selectLangSubtitle: "ഛാത്രപഥത്തിനായി നിങ്ങളുടെ പ്രിയപ്പെട്ട ഭാഷ തിരഞ്ഞെടുക്കുക. മുഴുവൻ പേജും മാറും.",
+                    applyLang: "ഭാഷ പ്രയോഗിക്കുക",
+                    prefSaved: "നിങ്ങളുടെ ഭാഷാ മുൻഗണന സംരക്ഷിക്കപ്പെടും.",
+                    regNewStudent: "പുതിയ വിദ്യാർത്ഥിയെ ചേർക്കുക",
+                    printSavePdf: "പ്രിന്റ് / പിഡിഎഫ് സേവ് ചെയ്യുക",
+                    resetProgress: "പുരോഗതി പുനഃക്രമീകരിക്കുക",
+                    watchAuthVideo: "വീഡിയോ കണ്ട് പ്രാമാണീകരിക്കുക",
+                    markComplete: "പൂർത്തിയായതായി അടയാളപ്പെടുത്തുക",
+                    watchRequiredNote: "ബോക്സ് ചെക്ക് ചെയ്യാൻ 80% കാണുക",
+                    requires80: "80% വീഡിയോ കാണേണ്ടതുണ്ട്",
+                    authVerified: "വീഡിയോ സ്ഥിരീകരിച്ചു (>=80%)",
+                    pending: "തീർപ്പുകൽപ്പിക്കാത്തത്",
+                    completed: "പൂർത്തിയായി",
+                    prereqCheck: "മുൻവ്യവസ്ഥ പരിശോധന",
+                    prereqTitle: "അടിസ്ഥാനവും മുൻവ്യവസ്ഥകളും",
+                    capstoneTitle: "പ്രാക്ടിക്കൽ ക്യാപ്സ്റ്റോൺ പ്രോജക്റ്റ്",
+                    capstoneType: "ക്യാപ്സ്റ്റോൺ പ്രോജക്റ്റ്",
+                    roadmapCompleteTitle: "കോഴ്സ് റോഡ്മാപ്പ് പൂർത്തിയായി",
+                    roadmapCompleteDesc: "അഭിനന്ദനങ്ങൾ! എല്ലാ ഘട്ടങ്ങളും 80%+ വീഡിയോ പൂർത്തീകരണത്തോടെ സ്ഥിരീകരിച്ചു.",
+                    backToForm: "വിദ്യാർത്ഥി ഫോമിലേക്ക് മടങ്ങുക",
+                    returnDashboard: "ഡാഷ്‌ബോർഡിലേക്ക് മടങ്ങുക",
+                    studentName: "വിദ്യാർത്ഥിയുടെ പേര്",
+                    rollNumber: "റോൾ നമ്പർ",
+                    age: "പ്രായം",
+                    skills: "കഴിവുകൾ",
+                    submit: "സമർപ്പിക്കുക",
+                    reset: "റീസെറ്റ്",
+                    usernameOrEmail: "ഉപയോക്തൃനാമം അല്ലെങ്കിൽ ഇമെയിൽ",
+                    password: "പാസ്‌വേഡ്",
+                    chooseUsername: "ഉപയോക്തൃനാമം നൽകുക",
+                    enterPassword: "പാസ്‌വേഡ് നൽകുക",
+                    confirmPassword: "പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക",
+                    signInToAccount: "നിങ്ങളുടെ ഛാത്രപഥ അക്കൗണ്ടിലേക്ക് പ്രവേശിക്കുക",
+                    createAccount: "ഛാത്രപഥ അക്കൗണ്ട് സൃഷ്ടിക്കുക",
+                    advisorGreeting: "ഛാത്രപഥത്തിലേക്ക് സ്വാഗതം! ഞാൻ നിങ്ങളുടെ ഉപദേശകനാണ്.",
+                    askAdvisorPlaceholder: "വിഷയങ്ങളെക്കുറിച്ച് ചോദിക്കുക..."
+                },
+                fr: {
+                    langName: "Français",
+                    home: "Accueil",
+                    studentsForm: "Formulaire Étudiant",
+                    about: "À Propos",
+                    aboutUs: "À Propos de Nous",
+                    contact: "Contact",
+                    contactSupport: "Contact & Support",
+                    darkMode: "Mode Sombre",
+                    lightMode: "Mode Clair",
+                    logIn: "Connexion",
+                    signUp: "Inscription",
+                    logOut: "Déconnexion",
+                    language: "Langue",
+                    tagline: "Le Parcours Guidé vers la Maîtrise des Compétences",
+                    brandDesc: "Donner aux étudiants du monde entier des parcours d'apprentissage vérifiés et structurés.",
+                    quickNav: "Navigation Rapide",
+                    skillRoadmaps: "Parcours de Compétences",
+                    studentResources: "Ressources Étudiantes",
+                    privacyPolicy: "Politique de Confidentialité",
+                    termsOfService: "Conditions d'Utilisation",
+                    openSource: "Open Source",
+                    copyright: "Conçu avec fierté pour l'excellence étudiante.",
+                    selectLangTitle: "Choisissez Votre Langue Préférée",
+                    selectLangSubtitle: "Sélectionnez votre langue pour Chaatra Patha. Toute la page et l'interface s'adapteront à votre choix.",
+                    applyLang: "Appliquer la Langue",
+                    prefSaved: "Votre préférence sera enregistrée sur toutes les pages.",
+                    regNewStudent: "Inscrire un Nouvel Étudiant",
+                    printSavePdf: "Imprimer / PDF",
+                    resetProgress: "Réinitialiser les Progrès",
+                    watchAuthVideo: "Regarder et Authentifier",
+                    markComplete: "Marquer Comme Terminé",
+                    watchRequiredNote: "Regarder >= 80% pour valider",
+                    requires80: "Visionnage vidéo à 80% requis",
+                    authVerified: "Vidéo vérifiée (>=80%)",
+                    pending: "En Attente",
+                    completed: "Terminé",
+                    prereqCheck: "Vérification des Prérequis",
+                    prereqTitle: "Fondations et Prérequis",
+                    capstoneTitle: "Projet Capstone Pratique",
+                    capstoneType: "Projet Capstone",
+                    roadmapCompleteTitle: "Parcours Terminé avec Succès",
+                    roadmapCompleteDesc: "Félicitations ! Toutes les étapes ont été validées avec 80%+ de visionnage vidéo.",
+                    backToForm: "Retour au Formulaire Étudiant",
+                    returnDashboard: "Retour au Tableau de Bord",
+                    studentName: "Nom de l'Étudiant",
+                    rollNumber: "Numéro de Registre",
+                    age: "Âge",
+                    skills: "Compétences",
+                    submit: "Soumettre",
+                    reset: "Réinitialiser",
+                    usernameOrEmail: "Nom d'utilisateur ou E-mail",
+                    password: "Mot de passe",
+                    chooseUsername: "Choisissez un nom d'utilisateur",
+                    enterPassword: "Entrez votre mot de passe",
+                    confirmPassword: "Confirmez le mot de passe",
+                    signInToAccount: "Connectez-vous à votre compte Chaatra Patha",
+                    createAccount: "Créez votre compte Chaatra Patha",
+                    advisorGreeting: "Bienvenue sur Chaatra Patha ! Je suis votre conseiller pédagogique.",
+                    askAdvisorPlaceholder: "Posez une question sur les compétences..."
+                },
+                sa: {
+                    langName: "संस्कृतम्",
+                    home: "गृहम्",
+                    studentsForm: "छात्रप्रपत्रम्",
+                    about: "परिचयः",
+                    aboutUs: "अस्मद्विषये",
+                    contact: "सम्पर्कः",
+                    contactSupport: "सम्पर्कः साहाय्यं च",
+                    darkMode: "गाढपद्धतिः",
+                    lightMode: "शुभ्रपद्धतिः",
+                    logIn: "प्रवेशः",
+                    signUp: "पञ्जीकरणम्",
+                    logOut: "निर्गमनम्",
+                    language: "भाषा",
+                    tagline: "कौशल्यनैपुण्यस्य मार्गदर्शकः पन्थाः",
+                    brandDesc: "प्रमाणीकृत-कौशल्यमार्गदर्शिकाभिः छात्राणां सक्षमीकरणम्।",
+                    quickNav: "शीघ्रसञ्चारः",
+                    skillRoadmaps: "कौशल्यमार्गाः",
+                    studentResources: "छात्रसंसाधनानि",
+                    privacyPolicy: "गोपनीयतानीतिः",
+                    termsOfService: "सेवानियमाः",
+                    openSource: "मुक्तस्रोतः",
+                    copyright: "छात्रोत्कृष्टतायै सप्रेम निर्मितम्।",
+                    selectLangTitle: "अभीष्टभाषां वृणोतु",
+                    selectLangSubtitle: "छात्रपथाय स्वभाषाप्राथमिकतां वृणोतु। सम्पूर्णं पृष्ठम् अस्यां भाषायां परिवर्तिष्यते।",
+                    applyLang: "भाषां प्रयोजयतु",
+                    prefSaved: "भवतः विकल्पः सर्वपृष्ठेषु रक्षितः भविष्यति।",
+                    regNewStudent: "नवीनछात्रपञ्जीकरणम्",
+                    printSavePdf: "मुद्रयतु / रक्षतु",
+                    resetProgress: "प्रगतिं पुनः स्थापयतु",
+                    watchAuthVideo: "दृश्यश्रव्यं दृष्ट्वा प्रमाणीकुरु",
+                    markComplete: "पूर्णम् इति अङ्कयतु",
+                    watchRequiredNote: "कोष्ठकं चिह्नीकर्तुं ८०% पश्यतु",
+                    requires80: "८०% दृश्यश्रव्यदर्शनम् अनिवार्यम्",
+                    authVerified: "दृश्यश्रव्यं प्रमाणीकृतम् (>=८०%)",
+                    pending: "अवशिष्टम्",
+                    completed: "सिद्धम्",
+                    prereqCheck: "पूर्वपेक्षापरीक्षणम्",
+                    prereqTitle: "आधारः पूर्वपेक्षाश्च",
+                    capstoneTitle: "व्यावहारिकपरियोजना",
+                    capstoneType: "मुख्यपरियोजना",
+                    roadmapCompleteTitle: "पाठ्यक्रममार्गदर्शिका समाप्ता",
+                    roadmapCompleteDesc: "अभिनन्दनानि! सर्वाणि सोपानानि ८०%+ दर्शनेन प्रमाणीकृतानि सिद्धाश्च।",
+                    backToForm: "छात्रप्रपत्रं प्रतिनिवर्तताम्",
+                    returnDashboard: "नियन्त्रणफलकं प्रतिनिवर्तताम्",
+                    studentName: "छात्रनाम",
+                    rollNumber: "क्रमाङ्कः",
+                    age: "आयुः",
+                    skills: "कौशल्यानि",
+                    submit: "समर्पयतु",
+                    reset: "पुनर्निवेशयतु",
+                    usernameOrEmail: "प्रयोक्तृनाम वा ईमेल",
+                    password: "कूटशब्दः",
+                    chooseUsername: "प्रयोक्तृनाम वृणोतु",
+                    enterPassword: "कूटशब्दं प्रविशतु",
+                    confirmPassword: "कूटशब्दं दृढीकुरु",
+                    signInToAccount: "छात्रपथखातायां प्रविशतु",
+                    createAccount: "छात्रपथखातायाः निर्माणं कुरु",
+                    advisorGreeting: "छात्रपथे स्वागतम्! अहम् भवतां पाठ्यक्रमपरामर्शकः।",
+                    askAdvisorPlaceholder: "कौशल्यानां विषये पृच्छतु..."
+                }
+            };
+
+            // Modal elements
+            const modalBackdrop = document.getElementById('language-modal-backdrop');
+            const closeBtn = document.getElementById('close-lang-modal-btn');
+            const applyBtn = document.getElementById('apply-lang-btn');
+            const toggleNavBtn = document.getElementById('language-toggle-btn');
+            const navLangDisplay = document.getElementById('nav-lang-display');
+            const optionsGrid = document.getElementById('language-options-grid');
+            const optionCards = optionsGrid ? optionsGrid.querySelectorAll('.lang-option-card') : [];
+
+            let currentSelectedLang = localStorage.getItem('preferred_language') || 'en';
+
+            function openLanguageModal() {
+                if (modalBackdrop) {
+                    modalBackdrop.style.display = 'flex';
+                    // Update active card
+                    optionCards.forEach(card => {
+                        if (card.getAttribute('data-lang') === currentSelectedLang) {
+                            card.classList.add('active');
+                        } else {
+                            card.classList.remove('active');
+                        }
+                    });
+                }
+            }
+
+            function closeLanguageModal() {
+                if (modalBackdrop) {
+                    modalBackdrop.style.display = 'none';
+                }
+            }
+
+            // Card click listener
+            optionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    optionCards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    currentSelectedLang = card.getAttribute('data-lang');
+                });
+                card.addEventListener('dblclick', function() {
+                    currentSelectedLang = card.getAttribute('data-lang');
+                    applyLanguage(currentSelectedLang);
+                    closeLanguageModal();
+                });
+            });
+
+            if (applyBtn) {
+                applyBtn.addEventListener('click', function() {
+                    applyLanguage(currentSelectedLang);
+                    closeLanguageModal();
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    closeLanguageModal();
+                });
+            }
+
+            if (toggleNavBtn) {
+                toggleNavBtn.addEventListener('click', function() {
+                    openLanguageModal();
+                });
+            }
+
+            // Applies translation to the entire page
+            function applyLanguage(lang) {
+                if (!TRANSLATIONS[lang]) lang = 'en';
+                currentSelectedLang = lang;
+                localStorage.setItem('preferred_language', lang);
+                document.documentElement.lang = lang;
+
+                const dict = TRANSLATIONS[lang];
+
+                // 1. Update navbar language badge
+                if (navLangDisplay) {
+                    navLangDisplay.textContent = dict.langName;
+                }
+
+                // 2. Translate Navigation Links
+                const navLinks = document.querySelectorAll('.nav-links .nav-link');
+                if (navLinks.length >= 4) {
+                    navLinks[0].textContent = dict.home;
+                    navLinks[1].textContent = dict.studentsForm;
+                    navLinks[2].textContent = dict.about;
+                    navLinks[3].textContent = dict.contact;
+                }
+
+                // 3. Translate Auth Nav Buttons
+                const logoutBtn = document.getElementById('nav-logout-btn');
+                const loginBtn = document.getElementById('nav-login-btn');
+                const signupBtn = document.getElementById('nav-signup-btn');
+                if (logoutBtn) logoutBtn.textContent = dict.logOut;
+                if (loginBtn) loginBtn.textContent = dict.logIn;
+                if (signupBtn) signupBtn.textContent = dict.signUp;
+
+                // 4. Translate Theme Toggle text
+                const modeText = document.getElementById('theme-mode-text');
+                if (modeText) {
+                    const isDark = document.body.classList.contains('dark-mode');
+                    modeText.textContent = isDark ? dict.lightMode : dict.darkMode;
+                }
+
+                // 5. Translate Footer Items
+                const footerHeadings = document.querySelectorAll('.footer-col .footer-heading');
+                if (footerHeadings.length >= 3) {
+                    footerHeadings[0].textContent = dict.quickNav;
+                    footerHeadings[1].textContent = dict.skillRoadmaps;
+                    footerHeadings[2].textContent = dict.studentResources;
+                }
+                const footerTagline = document.querySelector('.footer-tagline');
+                if (footerTagline) footerTagline.textContent = dict.tagline;
+
+                // 6. Translate Roadmap Page Buttons and Labels
+                const printBtn = document.querySelector('button[onclick*="window.print"]');
+                if (printBtn) printBtn.textContent = dict.printSavePdf;
+
+                const resetBtn = document.getElementById('reset-progress-btn');
+                if (resetBtn) resetBtn.textContent = dict.resetProgress;
+
+                document.querySelectorAll('.milestone-video-btn span').forEach(el => {
+                    el.textContent = dict.watchAuthVideo;
+                });
+
+                document.querySelectorAll('.checkbox-caption').forEach(el => {
+                    if (el.textContent.trim() !== dict.completed) {
+                        el.textContent = dict.markComplete;
+                    }
+                });
+
+                document.querySelectorAll('.milestone-hint-text').forEach(el => {
+                    el.textContent = dict.watchRequiredNote;
+                });
+
+                document.querySelectorAll('.auth-locked').forEach(el => {
+                    el.textContent = dict.requires80;
+                });
+
+                document.querySelectorAll('.auth-verified').forEach(el => {
+                    el.textContent = dict.authVerified;
+                });
+
+                const compTitle = document.querySelector('#completion-celebration-card h3');
+                if (compTitle) compTitle.textContent = dict.roadmapCompleteTitle;
+
+                // 7. Translate Alterbox Modal text itself
+                const modalTitle = document.getElementById('lang-modal-title');
+                const modalSub = document.getElementById('lang-modal-subtitle');
+                const modalNote = document.getElementById('language-status-note');
+                if (modalTitle) modalTitle.textContent = dict.selectLangTitle;
+                if (modalSub) modalSub.textContent = dict.selectLangSubtitle;
+                if (applyBtn) applyBtn.textContent = dict.applyLang;
+                if (modalNote) modalNote.textContent = dict.prefSaved;
+
+                // 8. Translate Chatbot placeholder & greeting
+                const chatInput = document.getElementById('chatbot-input');
+                if (chatInput) chatInput.placeholder = dict.askAdvisorPlaceholder;
+
+                // 9. If non-English, trigger automated translation for dynamic text blocks
+                triggerExternalTranslator(lang);
+            }
+
+            // Google translate automated page conversion bridge
+            function triggerExternalTranslator(targetLang) {
+                if (targetLang === 'en') {
+                    // Reset cookies
+                    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + window.location.hostname + "; path=/;";
+                    return;
+                }
+
+                // Set Google Translate cookie
+                const cookieVal = '/en/' + targetLang;
+                document.cookie = 'googtrans=' + cookieVal + '; path=/;';
+                document.cookie = 'googtrans=' + cookieVal + '; domain=' + window.location.hostname + '; path=/;';
+
+                // Dynamically inject script if not yet loaded
+                if (!window.google || !window.google.translate) {
+                    if (!document.getElementById('google-translate-script')) {
+                        const s = document.createElement('script');
+                        s.id = 'google-translate-script';
+                        s.src = '//translate.google.com/translate_a/element.js?cb=chaatraTranslateInit';
+                        s.async = true;
+                        document.head.appendChild(s);
+                    }
+                } else {
+                    const combo = document.querySelector('.goog-te-combo');
+                    if (combo) {
+                        combo.value = targetLang;
+                        combo.dispatchEvent(new Event('change'));
+                    }
+                }
+            }
+
+            window.chaatraTranslateInit = function() {
+                try {
+                    new google.translate.TranslateElement({
+                        pageLanguage: 'en',
+                        includedLanguages: 'en,hi,kn,ml,fr,sa',
+                        autoDisplay: false
+                    }, 'google_translate_element');
+
+                    setTimeout(() => {
+                        const combo = document.querySelector('.goog-te-combo');
+                        if (combo && currentSelectedLang !== 'en') {
+                            combo.value = currentSelectedLang;
+                            combo.dispatchEvent(new Event('change'));
+                        }
+                    }, 400);
+                } catch (e) {}
+            };
+
+            // First-time visit alterbox logic:
+            // "at the beginning of the page create a alterbox and ask which language does he prefer and convert the whole page to that lang"
+            const savedLang = localStorage.getItem('preferred_language');
+            if (!savedLang) {
+                // Show modal alterbox dialog immediately on first load
+                openLanguageModal();
+                applyLanguage('en');
+            } else {
+                applyLanguage(savedLang);
+            }
+        })();
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
+
