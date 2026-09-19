@@ -2150,4 +2150,249 @@ body {
     }
 }
 
+/* ==========================================================================
+   Video Verification Modal & 80% Watch Filter
+   ========================================================================== */
+.video-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 20000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: modalFadeIn 0.25s ease;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.video-modal-card {
+    width: 780px;
+    max-width: 100%;
+    background: var(--neu-surface);
+    border: 1.5px solid var(--neu-border);
+    box-shadow: var(--neu-raised);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: modalScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScaleIn {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.video-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid var(--nav-border);
+    background: var(--nav-bg);
+}
+
+.video-modal-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    color: var(--primary-blue);
+    background: rgba(37, 99, 235, 0.1);
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 0.35rem;
+}
+
+.video-modal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.video-close-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: var(--neu-surface);
+    box-shadow: var(--neu-btn);
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.video-close-btn:hover {
+    color: var(--danger-color);
+    transform: scale(1.08);
+}
+
+.video-player-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    background: #000;
+}
+
+.video-player-wrapper iframe, .video-player-wrapper #youtube-player-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.video-watch-progress-box {
+    padding: 1.25rem 1.75rem;
+    background: var(--neu-surface);
+    border-top: 1px solid var(--nav-border);
+}
+
+.watch-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.65rem;
+    color: var(--text-primary);
+}
+
+.watch-req-label {
+    color: var(--primary-blue);
+    font-size: 0.8rem;
+    background: rgba(37, 99, 235, 0.1);
+    padding: 0.2rem 0.55rem;
+    border-radius: 12px;
+}
+
+.watch-track-outer {
+    position: relative;
+    height: 14px;
+    border-radius: 8px;
+    background: var(--neu-surface);
+    box-shadow: var(--neu-inset);
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+
+.watch-track-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    border-radius: 8px;
+    transition: width 0.35s ease;
+}
+
+.watch-track-fill.is-authenticated {
+    background: linear-gradient(90deg, #16a34a, #22c55e);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+}
+
+.goal-marker-80 {
+    position: absolute;
+    left: 80%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #dc2626;
+    z-index: 2;
+}
+
+.watch-feedback-msg {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.watch-feedback-msg.verified {
+    color: var(--success-color);
+    font-weight: 700;
+}
+
+/* Authentication Warning Card */
+.auth-warning-card {
+    width: 440px;
+    max-width: 100%;
+    padding: 2rem;
+    background: var(--neu-surface);
+    border-radius: 20px;
+    border: 1.5px solid var(--neu-border);
+    box-shadow: var(--neu-raised);
+    text-align: center;
+    animation: modalScaleIn 0.25s ease;
+}
+
+.auth-warning-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--neu-surface);
+    box-shadow: var(--neu-btn);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.auth-warning-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.auth-warning-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.auth-warning-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Milestone Authentication Badges on Card */
+.milestone-auth-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.auth-locked {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--danger-color);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.auth-verified {
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--success-color);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+
 

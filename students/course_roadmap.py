@@ -5,6 +5,55 @@ from pathlib import Path
 from django.conf import settings
 from .skills_data import SKILLS_DICTIONARY as CATEGORY_TAXONOMY, ALL_SKILLS_LIST
 
+# Curated high-fidelity YouTube video IDs for official interactive watch verification
+COURSE_VIDEO_IDS = {
+    "cybersecurity": "inWWhr5tnEA",
+    "machine-learning": "i_LwzRVP7bg",
+    "devops": "hQcFE0RD0cQ",
+    "mobile-development": "VPvVD8t02U8",
+    "qa-testing": "sO8eGL6QVUw",
+    "blockchain": "gyMwXuJrbJQ",
+    "iot": "6mBO2vqLv38",
+    "prompt-engineering": "_ZvnD73m40o",
+    "server-maintenance": "kGY8e658y28",
+    "software-architecture": "77flD_3F3kU",
+    "quantitative-research": "xxpc-HPKN28",
+    "sql": "HXV3zeRR3h4",
+    "data-analysis": "r-uOLxNrNk8",
+    "statistical-analysis": "xxpc-HPKN28",
+    "data-visualization": "ztnT3_T-p4A",
+    "data-engineering": "kZ_QJcW5540",
+    "business-intelligence": "ztnT3_T-p4A",
+    "data-mining": "r-uOLxNrNk8",
+    "big-data": "1vbXmCrkT3Y",
+    "predictive-modeling": "i_LwzRVP7bg",
+    "content-marketing": "x_0gT4S2_uY",
+    "copywriting": "Xn_7U7c4tA0",
+    "social-media": "c8wS0s3eG74",
+    "market-research": "xxpc-HPKN28",
+    "seo": "DvwS7cV9GmQ",
+    "sem-ppc": "045k286E95g",
+    "email-marketing": "z8iE2y1Y3iI",
+    "crm": "c8wS0s3eG74",
+    "lead-generation": "045k286E95g",
+    "brand-management": "c8wS0s3eG74",
+    "video-marketing": "x_0gT4S2_uY",
+    "digital-marketing-strategy": "DvwS7cV9GmQ",
+    "ecommerce": "c8wS0s3eG74",
+    "public-relations": "x_0gT4S2_uY",
+    "sales": "c8wS0s3eG74",
+    "financial-accounting": "yYX4bS44n3E",
+    "inventory-control": "yYX4bS44n3E",
+    "budgeting": "yYX4bS44n3E",
+    "supply-chain": "yYX4bS44n3E",
+    "quality-control": "sO8eGL6QVUw",
+    "financial-modeling": "yYX4bS44n3E",
+    "risk-management": "yYX4bS44n3E",
+    "business-analysis": "r-uOLxNrNk8",
+    "contract-negotiation": "yYX4bS44n3E",
+    "compliance": "yYX4bS44n3E",
+}
+
 
 def get_base_dir():
     try:
@@ -120,7 +169,6 @@ def get_roadmap_for_skill(skill_input):
 
     # 4. Fallback curriculum if skill is outside the 45 batch-2 specifications
     if not course_data:
-        # Determine category track
         track_name = "Professional Specialization"
         for cat, skills in CATEGORY_TAXONOMY.items():
             if any(s.lower() == clean_name.lower() for s in skills):
@@ -148,7 +196,6 @@ def get_roadmap_for_skill(skill_input):
     try:
         yt_links = get_youtube_links(matched_slug, data_dict={matched_slug: course_data, **courses_dict})
     except Exception:
-        # Fallback query
         c_name = course_data.get("name", clean_name)
         languages = {"en": "English", "hi": "Hindi", "kn": "Kannada", "ml": "Malayalam", "fr": "French"}
         yt_links = []
@@ -161,7 +208,10 @@ def get_roadmap_for_skill(skill_input):
                 "type": "YOUTUBE_SEARCH"
             })
 
-    # Prepare structured milestones list
+    # Assigned default verification video ID
+    course_video_id = COURSE_VIDEO_IDS.get(matched_slug, "rfscVS0vtbw")
+
+    # Prepare structured milestones list with video verification metadata
     milestones = []
     step_counter = 1
 
@@ -185,6 +235,8 @@ def get_roadmap_for_skill(skill_input):
             "description": f"Recommended preliminary mastery: {', '.join(prereq_names)}.",
             "items": prereq_names,
             "video_url": f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}",
+            "video_id": course_video_id,
+            "required_watch_pct": 80,
         })
         step_counter += 1
 
@@ -201,6 +253,8 @@ def get_roadmap_for_skill(skill_input):
             "description": f"Detailed exploration and mastery of {subtopic}.",
             "items": [],
             "video_url": f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}",
+            "video_id": course_video_id,
+            "required_watch_pct": 80,
         })
         step_counter += 1
 
@@ -217,6 +271,8 @@ def get_roadmap_for_skill(skill_input):
             "description": project_desc,
             "items": ["Requirements Analysis", "Implementation", "Testing & Verification", "Portfolio Showcase"],
             "video_url": f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}",
+            "video_id": course_video_id,
+            "required_watch_pct": 80,
         })
 
     return {
@@ -229,6 +285,7 @@ def get_roadmap_for_skill(skill_input):
         "total_milestones": len(milestones),
         "project": course_data.get("project", ""),
         "youtube_links": yt_links,
+        "course_video_id": course_video_id,
     }
 
 
@@ -240,4 +297,3 @@ def parse_student_skills(skills_string):
         return []
     items = re.split(r',\s*(?![^()]*\))', skills_string.strip())
     return [s.strip() for s in items if s.strip()]
-

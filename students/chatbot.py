@@ -128,3 +128,4 @@ def process_chat_message(user_message, context=None):
         f"- 'Send roadmap SMS to +[phone number]' (via Twilio {TWILIO_PHONE_NUMBER})\n"
         "- 'What skills taxonomy domains are available?'"
     )
+
