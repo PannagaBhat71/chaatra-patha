@@ -93,6 +93,9 @@ if IS_VERCEL:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': tmp_db,
+            'OPTIONS': {
+                'timeout': 20,
+            },
         }
     }
 else:
@@ -100,6 +103,9 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
+            'OPTIONS': {
+                'timeout': 20,
+            },
         }
     }
 

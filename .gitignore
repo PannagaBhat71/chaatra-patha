@@ -8,9 +8,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Django database
-*.sqlite3
-db.sqlite3
+# Django database (tracked for serverless Vercel deployment)
 
 # Static and Vercel builds
 staticfiles/
