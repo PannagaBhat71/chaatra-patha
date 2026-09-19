@@ -30,6 +30,12 @@ SECRET_KEY = 'django-insecure-i7r%yok*4^*y^^p9oc^h9@l$x=y-p)nz1yc1t)lc+qab#l()om
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.vercel.app',
+    'https://chaatra-patha.vercel.app',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 AUTHENTICATION_BACKENDS = [

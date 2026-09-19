@@ -100,6 +100,10 @@ class studentView(TemplateView):
     template_name = "students/student.html"
 
 
+from django.views.decorators.csrf import csrf_exempt
+
+
+@csrf_exempt
 def chatbot_api(request):
     """
     JSON API endpoint for the interactive chatbot widget overlay.
