@@ -98,3 +98,31 @@ class ContactView(TemplateView):
 
 class studentView(TemplateView):
     template_name = "students/student.html"
+
+
+def chatbot_api(request):
+    """
+    JSON API endpoint for the interactive chatbot widget overlay.
+    Guaranteed never to crash on Vercel.
+    """
+    import json
+    from django.http import JsonResponse
+    from .chatbot import process_chat_message
+
+    if request.method != "POST":
+        return JsonResponse({"reply": "Only POST requests are supported.", "status": "error"}, status=405)
+
+    try:
+        data = json.loads(request.body.decode("utf-8") or "{}")
+    except Exception:
+        data = {}
+
+    user_message = data.get("message", "")
+    try:
+        reply_text = process_chat_message(user_message)
+        return JsonResponse({"reply": reply_text, "status": "success"})
+    except Exception as e:
+        return JsonResponse({
+            "reply": f"Encountered a temporary processing error. Please try again. ({str(e)})",
+            "status": "error"
+        })

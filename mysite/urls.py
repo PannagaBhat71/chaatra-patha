@@ -39,5 +39,6 @@ urlpatterns = [
     path('login/', account_views.user_login, name='login'),
     path('signup/', account_views.signup, name='signup'),
     path('logout/', account_views.user_logout, name='logout'),
+    path('api/chat/', views.chatbot_api, name='chatbot-api'),
     re_path(r'^static/(?P<path>.*)$', serve_static),
 ]

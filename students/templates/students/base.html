@@ -116,7 +116,195 @@
         </div>
     </footer>
 
-    <!-- Simple JavaScript for Night Mode Toggle -->
+    <!-- Round Chatbot Overlay Widget -->
+    <div id="chatbot-widget-container">
+        <!-- Floating Round Button -->
+        <button id="chatbot-toggle-btn" class="chatbot-floating-toggle neu-btn" aria-label="Open Learning Advisor Chatbot" title="Chat with Advisor">
+            <span class="chatbot-toggle-pulse"></span>
+            <!-- Open Chat Icon -->
+            <svg class="chatbot-icon-open" id="chat-icon-open" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <!-- Close Icon (shown when open) -->
+            <svg class="chatbot-icon-close" id="chat-icon-close" style="display: none;" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <!-- Chat Overlay Window -->
+        <div id="chatbot-window" class="chatbot-window" role="dialog" aria-modal="true" aria-labelledby="chat-title">
+            <!-- Header -->
+            <div class="chatbot-header">
+                <div class="chatbot-header-left">
+                    <div class="chatbot-avatar neu-inset">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                            <circle cx="12" cy="5" r="2"></circle>
+                            <path d="M12 7v4"></path>
+                            <line x1="8" y1="16" x2="8" y2="16.01"></line>
+                            <line x1="16" y1="16" x2="16" y2="16.01"></line>
+                        </svg>
+                    </div>
+                    <div class="chatbot-title-box">
+                        <h4 id="chat-title">छात्रपथः Advisor</h4>
+                        <span class="chatbot-twilio-badge">
+                            <span class="twilio-dot"></span>
+                            Twilio SMS Ready (+17372508034)
+                        </span>
+                    </div>
+                </div>
+                <button id="chatbot-close-btn" class="chatbot-close-btn" aria-label="Close Chat Window">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Messages Stream -->
+            <div id="chatbot-messages-body" class="chatbot-messages-body">
+                <div class="chat-message bot-message">
+                    <div class="chat-bubble">
+                        Welcome to Chaatra Patha! I am your curriculum advisor.
+                        
+                        Ask me about our 90+ verified skills, course roadmaps, multi-language tutorials, or send your roadmap link directly via Twilio SMS.
+                    </div>
+                </div>
+
+                <!-- Suggested Quick Chips -->
+                <div class="chatbot-chips-wrap" id="chatbot-chips">
+                    <button type="button" class="chatbot-chip" onclick="handleChipClick('Tell me about Machine Learning Algorithms')">Machine Learning</button>
+                    <button type="button" class="chatbot-chip" onclick="handleChipClick('Tell me about Cybersecurity')">Cybersecurity</button>
+                    <button type="button" class="chatbot-chip" onclick="handleChipClick('How does the green progress line work?')">Green Progress Line</button>
+                    <button type="button" class="chatbot-chip" onclick="handleChipClick('What languages have video tutorials?')">Tutorial Languages</button>
+                    <button type="button" class="chatbot-chip" onclick="handleChipClick('Send roadmap via Twilio SMS')">Twilio SMS</button>
+                </div>
+            </div>
+
+            <!-- Typing Indicator (Hidden by default) -->
+            <div id="chat-typing" class="typing-indicator" style="display: none;">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            </div>
+
+            <!-- Input Footer -->
+            <div class="chatbot-footer">
+                <form id="chatbot-form" class="chatbot-input-form">
+                    <input type="text" id="chatbot-input" class="chatbot-input-field" placeholder="Ask about skills, courses, or SMS..." autocomplete="off" maxlength="300" required>
+                    <button type="submit" class="chatbot-send-btn" aria-label="Send Message" id="chatbot-send-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Controller Script -->
+    <script>
+        (function() {
+            const toggleBtn = document.getElementById('chatbot-toggle-btn');
+            const closeBtn = document.getElementById('chatbot-close-btn');
+            const chatWindow = document.getElementById('chatbot-window');
+            const iconOpen = document.getElementById('chat-icon-open');
+            const iconClose = document.getElementById('chat-icon-close');
+            const chatForm = document.getElementById('chatbot-form');
+            const chatInput = document.getElementById('chatbot-input');
+            const messagesBody = document.getElementById('chatbot-messages-body');
+            const typingIndicator = document.getElementById('chat-typing');
+
+            let isOpen = false;
+
+            function toggleChat() {
+                isOpen = !isOpen;
+                if (isOpen) {
+                    chatWindow.classList.add('is-open');
+                    iconOpen.style.display = 'none';
+                    iconClose.style.display = 'block';
+                    setTimeout(() => chatInput.focus(), 250);
+                } else {
+                    chatWindow.classList.remove('is-open');
+                    iconOpen.style.display = 'block';
+                    iconClose.style.display = 'none';
+                }
+            }
+
+            if (toggleBtn) toggleBtn.addEventListener('click', toggleChat);
+            if (closeBtn) closeBtn.addEventListener('click', toggleChat);
+
+            function scrollToBottom() {
+                messagesBody.scrollTop = messagesBody.scrollHeight;
+            }
+
+            function appendMessage(text, isUser) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-message ' + (isUser ? 'user-message' : 'bot-message');
+                const bubble = document.createElement('div');
+                bubble.className = 'chat-bubble';
+                bubble.textContent = text;
+                msgDiv.appendChild(bubble);
+                messagesBody.appendChild(msgDiv);
+                scrollToBottom();
+            }
+
+            async function sendMessage(text) {
+                if (!text || !text.trim()) return;
+                appendMessage(text, true);
+                chatInput.value = '';
+
+                // Show typing indicator
+                if (typingIndicator) {
+                    typingIndicator.style.display = 'flex';
+                    messagesBody.appendChild(typingIndicator);
+                    scrollToBottom();
+                }
+
+                try {
+                    const response = await fetch('/api/chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({ message: text })
+                    });
+
+                    if (typingIndicator) typingIndicator.style.display = 'none';
+
+                    if (!response.ok) {
+                        appendMessage('Service currently busy. Please try again shortly.', false);
+                        return;
+                    }
+
+                    const data = await response.json();
+                    const reply = data.reply || 'Thank you for your message. How else may I assist you?';
+                    appendMessage(reply, false);
+                } catch (err) {
+                    if (typingIndicator) typingIndicator.style.display = 'none';
+                    appendMessage('Unable to connect to advisor service. Please check your internet connection.', false);
+                }
+            }
+
+            if (chatForm) {
+                chatForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    sendMessage(chatInput.value.trim());
+                });
+            }
+
+            // Expose chip click globally
+            window.handleChipClick = function(chipText) {
+                if (!isOpen) toggleChat();
+                sendMessage(chipText);
+            };
+        })();
+    </script>
+
+    <!-- Night Mode Toggle Script -->
     <script>
         (function() {
             const toggleBtn = document.getElementById('theme-toggle');
