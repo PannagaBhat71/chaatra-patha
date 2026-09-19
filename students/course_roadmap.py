@@ -442,7 +442,8 @@ def get_roadmap_for_skill(skill_input):
             "items": prereq_names,
             "video_url": f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}",
             "video_id": prereq_video_id,
-            "required_watch_pct": 80,
+            "required_study_seconds": 3600,
+            "required_study_hours": 1,
         })
         step_counter += 1
 
@@ -463,7 +464,8 @@ def get_roadmap_for_skill(skill_input):
             "items": [],
             "video_url": f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}",
             "video_id": subtopic_video_id,
-            "required_watch_pct": 80,
+            "required_study_seconds": 3600,
+            "required_study_hours": 1,
         })
         step_counter += 1
 
@@ -484,7 +486,8 @@ def get_roadmap_for_skill(skill_input):
             "items": ["Requirements Analysis", "Implementation", "Testing & Verification", "Portfolio Showcase"],
             "video_url": f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}",
             "video_id": project_video_id,
-            "required_watch_pct": 80,
+            "required_study_seconds": 3600,
+            "required_study_hours": 1,
         })
 
     return {

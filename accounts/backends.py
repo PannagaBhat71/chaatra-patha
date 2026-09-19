@@ -32,3 +32,4 @@ class EmailOrUsernameModelBackend(ModelBackend):
         except Exception:
             return None
         return None
+

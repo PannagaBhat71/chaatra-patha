@@ -9,7 +9,7 @@
         <span class="section-tag neu-tag-success">छात्रपथः • Personalized Learning Roadmap</span>
         <h2 class="section-title">{{ active_roadmap.name }}</h2>
         <p class="section-subtitle">
-            Tailored curriculum pathway with milestone tracking, video authentication filters (80% watch required), and practical capstone project.
+            Tailored curriculum pathway with milestone tracking, YouTube tutorial study verification (1 hour study required), and practical capstone project.
         </p>
     </div>
 
@@ -71,7 +71,7 @@
             <a href="{{ yt.url }}" target="_blank" rel="noopener noreferrer" class="yt-lang-btn neu-btn">
                 <span class="yt-icon-box">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 22c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 2c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/>
+                        <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 2c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 2c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/>
                     </svg>
                 </span>
                 <div class="yt-lang-info">
@@ -93,7 +93,7 @@
     <div class="neu-card progress-dashboard-card">
         <div class="progress-dashboard-header">
             <div>
-                <span class="progress-subtext">Interactive Milestone Completion (80% Video Watch Required)</span>
+                <span class="progress-subtext">Interactive Milestone Completion (1 Hour YouTube Study Required)</span>
                 <h4 class="progress-title" id="progress-summary-title">0 of {{ active_roadmap.total_milestones }} Milestones Cleared</h4>
             </div>
             <div class="progress-percent-box neu-inset">
@@ -106,7 +106,7 @@
         </div>
 
         <div class="progress-footer-note">
-            <span>Watch at least 80% of each milestone's tutorial video. Once the 80% threshold is reached, the milestone authenticates and the green progress connector line advances.</span>
+            <span>Study each milestone tutorial on YouTube for at least 1 hour. Once 1 hour has elapsed, the milestone unlocks and you can check the box to advance your green progress line.</span>
             <button type="button" class="btn-text-link" id="reset-progress-btn">Reset Progress</button>
         </div>
     </div>
@@ -139,10 +139,10 @@
                         <div class="milestone-type-wrap">
                             <span class="milestone-type-tag tag-{{ milestone.type|lower }}">{{ milestone.type_label }}</span>
                             <span class="milestone-status-badge" id="status-badge-{{ forloop.counter }}">Pending</span>
-                            <span class="milestone-auth-badge auth-locked" id="auth-badge-{{ forloop.counter }}">Requires 80% Video Watch</span>
+                            <span class="milestone-auth-badge auth-locked" id="auth-badge-{{ forloop.counter }}">Requires 1 Hr YouTube Study</span>
                         </div>
 
-                        <!-- Interactive Checkbox (Protected by 80% Watch Filter) -->
+                        <!-- Interactive Checkbox (Protected by 1-Hour Study Requirement) -->
                         <div class="milestone-check-control">
                             <label class="neu-checkbox-label" for="check-step-{{ forloop.counter }}">
                                 <input type="checkbox" 
@@ -174,16 +174,19 @@
                     {% endif %}
 
                     <div class="milestone-actions">
-                        <!-- Opens YouTube IFrame Player with 80% watch verification -->
-                        <button type="button" 
-                                class="btn neu-btn-primary btn-sm milestone-video-btn"
-                                onclick="openVideoVerificationModal('{{ forloop.counter }}', '{{ milestone.video_id }}', '{{ milestone.title|escapejs }}')">
+                        <!-- Opens relevant YouTube tutorial directly in new tab and tracks 1-hour study -->
+                        <a href="{{ milestone.video_url }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="btn neu-btn-primary btn-sm milestone-yt-btn"
+                           id="yt-btn-{{ forloop.counter }}"
+                           onclick="handleStudyLaunch('{{ forloop.counter }}')">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z"/>
+                                <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 2c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73z"/>
                             </svg>
-                            <span>Watch & Authenticate Video</span>
-                        </button>
-                        <span class="milestone-hint-text" id="watch-summary-{{ forloop.counter }}">Watch >= 80% to check box</span>
+                            <span>Open YouTube Tutorial</span>
+                        </a>
+                        <span class="milestone-hint-text" id="watch-summary-{{ forloop.counter }}">Spend 1 hr on YouTube to unlock checkbox</span>
                     </div>
                 </div>
             </div>
@@ -201,7 +204,7 @@
         </div>
         <div class="completion-details">
             <h3>Course Roadmap Completed</h3>
-            <p>Congratulations! All milestones for <strong>{{ active_roadmap.name }}</strong> have been verified with 80%+ video completion and marked complete. You are ready to showcase your capstone project.</p>
+            <p>Congratulations! All milestones for <strong>{{ active_roadmap.name }}</strong> have been verified with 1+ hour YouTube study and marked complete. You are ready to showcase your capstone project.</p>
         </div>
     </div>
 
@@ -217,75 +220,46 @@
 </section>
 
 <!-- ==========================================================================
-     Video Verification Modal Overlay (Tracks 80% Watch Progress)
+     1-Hour YouTube Study Warning Modal Dialog (Shown if user checks box early)
      ========================================================================== -->
-<div id="video-verification-modal" class="video-modal-backdrop" style="display: none;">
-    <div class="video-modal-card neu-card">
-        <div class="video-modal-header">
-            <div>
-                <span class="video-modal-tag">Milestone Authentication Video</span>
-                <h3 id="modal-video-title" class="video-modal-title">Tutorial Video</h3>
-            </div>
-            <button type="button" id="close-video-modal-btn" class="video-close-btn" aria-label="Close Video Player">&times;</button>
-        </div>
-        
-        <!-- Video Player Wrapper -->
-        <div class="video-player-wrapper">
-            <div id="youtube-player-container"></div>
-        </div>
-
-        <!-- Real-time Watch Progress Tracker -->
-        <div class="video-watch-progress-box">
-            <div class="watch-meta-row">
-                <span id="watch-status-label">Watch Progress: 0%</span>
-                <span id="watch-requirement-label" class="watch-req-label">Goal: 80% Required to Authenticate</span>
-            </div>
-            <div class="watch-track-outer">
-                <div id="watch-track-fill" class="watch-track-fill"></div>
-                <div class="goal-marker-80" title="80% Verification Goal"></div>
-            </div>
-            <div id="watch-feedback-msg" class="watch-feedback-msg">
-                Please watch until at least 80% of the video is completed. Once 80% is reached, this milestone will automatically authenticate and check itself.
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ==========================================================================
-     Authentication Warning Dialog (When user clicks checkbox before 80%)
-     ========================================================================== -->
-<div id="auth-warning-modal" class="video-modal-backdrop" style="display: none;">
+<div id="study-warning-modal" class="video-modal-backdrop" style="display: none;">
     <div class="auth-warning-card neu-card">
         <div class="auth-warning-icon">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
         </div>
-        <h4 class="auth-warning-title">Milestone Authentication Filter</h4>
-        <p class="auth-warning-desc">
-            To authenticate this milestone, you must watch at least <strong>80%</strong> of the video tutorial. Checkboxes are locked until this requirement is fulfilled.
+        <h4 class="auth-warning-title">1-Hour YouTube Study Required</h4>
+        <p class="auth-warning-desc" id="study-warning-desc">
+            To authenticate and mark this milestone complete, you must spend at least <strong>1 hour</strong> studying the tutorial content in the YouTube tab.
         </p>
+        <div class="study-meter-wrap">
+            <div class="study-time-meter neu-inset">
+                <div class="study-time-fill" id="study-time-fill" style="width: 0%;"></div>
+            </div>
+            <div class="study-meter-labels">
+                <span id="study-time-elapsed-label">Time Spent: 0m</span>
+                <span id="study-time-remaining-label">Remaining: 60m</span>
+            </div>
+        </div>
         <div class="auth-warning-actions">
-            <button type="button" id="auth-launch-video-btn" class="btn neu-btn-primary">Watch Tutorial Video Now</button>
-            <button type="button" id="auth-cancel-btn" class="btn neu-btn-secondary">Dismiss</button>
+            <a href="#" id="study-open-yt-btn" target="_blank" rel="noopener noreferrer" class="btn neu-btn-primary">
+                Open YouTube Tutorial Now
+            </a>
+            <button type="button" id="study-close-modal-btn" class="btn neu-btn-secondary">Close</button>
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<!-- YouTube IFrame API -->
-<script src="https://www.youtube.com/iframe_api"></script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const studentId = "{{ student.id }}";
     const roadmapSlug = "{{ active_roadmap.slug }}";
     const storageKey = 'cp_progress_' + studentId + '_' + roadmapSlug;
-    const authStorageKey = 'cp_authenticated_' + studentId + '_' + roadmapSlug;
-    const watchPctStorageKey = 'cp_watch_pct_' + studentId + '_' + roadmapSlug;
+    const studyStartKeyPrefix = 'cp_study_start_' + studentId + '_' + roadmapSlug + '_';
 
     const checkboxes = document.querySelectorAll('.milestone-checkbox');
     const totalSteps = checkboxes.length;
@@ -295,20 +269,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const celebrationCard = document.getElementById('completion-celebration-card');
     const resetBtn = document.getElementById('reset-progress-btn');
 
-    // Video modal elements
-    const videoModal = document.getElementById('video-verification-modal');
-    const closeVideoModalBtn = document.getElementById('close-video-modal-btn');
-    const modalVideoTitle = document.getElementById('modal-video-title');
-    const watchStatusLabel = document.getElementById('watch-status-label');
-    const watchTrackFill = document.getElementById('watch-track-fill');
-    const watchFeedbackMsg = document.getElementById('watch-feedback-msg');
+    const studyModal = document.getElementById('study-warning-modal');
+    const studyTimeFill = document.getElementById('study-time-fill');
+    const studyElapsedLabel = document.getElementById('study-time-elapsed-label');
+    const studyRemainingLabel = document.getElementById('study-time-remaining-label');
+    const studyOpenYtBtn = document.getElementById('study-open-yt-btn');
+    const studyCloseBtn = document.getElementById('study-close-modal-btn');
 
-    // Warning dialog elements
-    const authWarningModal = document.getElementById('auth-warning-modal');
-    const authLaunchVideoBtn = document.getElementById('auth-launch-video-btn');
-    const authCancelBtn = document.getElementById('auth-cancel-btn');
+    const REQUIRED_SECONDS = 3600; // 1 hour = 3600 seconds
 
-    // State storage loaders
     function loadState(key) {
         try {
             const raw = localStorage.getItem(key);
@@ -325,45 +294,86 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let progressState = loadState(storageKey);
-    let authenticatedState = loadState(authStorageKey);
-    let watchPctState = loadState(watchPctStorageKey);
 
-    let activeStep = null;
-    let activeVideoId = null;
-    let activeVideoTitle = '';
-    let ytPlayer = null;
-    let ytTrackerTimer = null;
-    let warningTargetStep = null;
-
-    // Initialize badges and checkboxes on page load
-    function initMilestones() {
-        checkboxes.forEach(cb => {
-            const step = cb.getAttribute('data-step');
-            const authBadge = document.getElementById('auth-badge-' + step);
-            const summaryHint = document.getElementById('watch-summary-' + step);
-
-            if (authenticatedState[step]) {
-                cb.checked = true;
-                if (authBadge) {
-                    authBadge.textContent = 'Authenticated (80%+ Watched)';
-                    authBadge.className = 'milestone-auth-badge auth-verified';
-                }
-                if (summaryHint) {
-                    summaryHint.textContent = 'Verified: 80%+ watched';
-                }
-            } else {
-                cb.checked = false;
-                const watched = watchPctState[step] || 0;
-                if (authBadge) {
-                    authBadge.textContent = watched > 0 ? ('Watched ' + watched + '% / 80% Needed') : 'Requires 80% Video Watch';
-                    authBadge.className = 'milestone-auth-badge auth-locked';
-                }
-            }
-        });
-        refreshOverallProgress();
+    function getStudyStartTime(step) {
+        const val = localStorage.getItem(studyStartKeyPrefix + step);
+        return val ? parseInt(val, 10) : null;
     }
 
-    // Update UI elements for a single milestone
+    function setStudyStartTime(step) {
+        if (!getStudyStartTime(step)) {
+            localStorage.setItem(studyStartKeyPrefix + step, Date.now().toString());
+        }
+    }
+
+    function getStudyElapsedSeconds(step) {
+        const st = getStudyStartTime(step);
+        if (!st) return 0;
+        return Math.max(0, Math.floor((Date.now() - st) / 1000));
+    }
+
+    function isStepUnlocked(step) {
+        if (progressState[step]) return true;
+        return getStudyElapsedSeconds(step) >= REQUIRED_SECONDS;
+    }
+
+    // Called when user clicks "Open YouTube Tutorial"
+    window.handleStudyLaunch = function(step) {
+        setStudyStartTime(step);
+        updateMilestoneStatus(step);
+    };
+
+    function updateMilestoneStatus(step) {
+        const authBadge = document.getElementById('auth-badge-' + step);
+        const summaryHint = document.getElementById('watch-summary-' + step);
+        const cb = document.getElementById('check-step-' + step);
+        const isCompleted = !!progressState[step];
+
+        if (isCompleted) {
+            if (cb) cb.checked = true;
+            if (authBadge) {
+                authBadge.textContent = '1 Hr YouTube Study Verified';
+                authBadge.className = 'milestone-auth-badge auth-verified';
+            }
+            if (summaryHint) {
+                summaryHint.textContent = 'Verified: 1 hour study requirement completed';
+            }
+            return;
+        }
+
+        const elapsed = getStudyElapsedSeconds(step);
+        const hasStarted = !!getStudyStartTime(step);
+
+        if (elapsed >= REQUIRED_SECONDS) {
+            // Unlocked!
+            if (authBadge) {
+                authBadge.textContent = '1 Hr YouTube Study Verified';
+                authBadge.className = 'milestone-auth-badge auth-verified';
+            }
+            if (summaryHint) {
+                summaryHint.textContent = '1 Hr completed! You can now check this box.';
+            }
+        } else if (hasStarted) {
+            const mins = Math.floor(elapsed / 60);
+            const remMins = Math.ceil((REQUIRED_SECONDS - elapsed) / 60);
+            if (authBadge) {
+                authBadge.textContent = 'Studying: ' + mins + 'm / 60m';
+                authBadge.className = 'milestone-auth-badge auth-studying';
+            }
+            if (summaryHint) {
+                summaryHint.textContent = 'Studying on YouTube (' + remMins + 'm remaining to unlock)';
+            }
+        } else {
+            if (authBadge) {
+                authBadge.textContent = 'Requires 1 Hr YouTube Study';
+                authBadge.className = 'milestone-auth-badge auth-locked';
+            }
+            if (summaryHint) {
+                summaryHint.textContent = 'Spend 1 hr on YouTube to unlock checkbox';
+            }
+        }
+    }
+
     function updateMilestoneUI(step, isChecked) {
         const milestoneItem = document.getElementById('milestone-item-' + step);
         const node = document.getElementById('node-' + step);
@@ -405,261 +415,105 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Refresh overall progress bar and celebration
     function refreshOverallProgress() {
         let completedCount = 0;
         checkboxes.forEach(cb => {
             const step = cb.getAttribute('data-step');
-            const isChecked = cb.checked;
+            const isChecked = !!progressState[step];
+            cb.checked = isChecked;
             updateMilestoneUI(step, isChecked);
+            updateMilestoneStatus(step);
             if (isChecked) completedCount++;
         });
 
         const percent = totalSteps > 0 ? Math.round((completedCount / totalSteps) * 100) : 0;
-
         if (progressFill) progressFill.style.width = percent + '%';
         if (progressPercentText) progressPercentText.textContent = percent + '%';
         if (progressSummaryTitle) {
             progressSummaryTitle.textContent = completedCount + ' of ' + totalSteps + ' Milestones Cleared';
         }
-
         if (celebrationCard) {
             celebrationCard.style.display = (completedCount === totalSteps && totalSteps > 0) ? 'flex' : 'none';
         }
     }
 
-    // CRITICAL FILTER: Prevent checking if less than 80% watched
+    // Checkbox click listener: Protected by 1-hour study requirement
     checkboxes.forEach(cb => {
         cb.addEventListener('click', function(e) {
             const step = this.getAttribute('data-step');
-            if (!authenticatedState[step]) {
-                // Deny checking!
+            if (!isStepUnlocked(step)) {
                 e.preventDefault();
                 this.checked = false;
-                showAuthWarning(step);
+                showStudyWarning(step);
                 return false;
             }
 
-            // If authenticated (80% reached), allow marking complete
             progressState[step] = this.checked;
             saveState(storageKey, progressState);
             refreshOverallProgress();
         });
     });
 
-    // Show authentication required warning dialog
-    function showAuthWarning(step) {
-        warningTargetStep = step;
-        if (authWarningModal) {
-            authWarningModal.style.display = 'flex';
+    function showStudyWarning(step) {
+        const elapsed = getStudyElapsedSeconds(step);
+        const mins = Math.floor(elapsed / 60);
+        const secs = elapsed % 60;
+        const remMins = Math.max(0, Math.ceil((REQUIRED_SECONDS - elapsed) / 60));
+        const pct = Math.min(100, Math.round((elapsed / REQUIRED_SECONDS) * 100));
+
+        if (studyTimeFill) studyTimeFill.style.width = pct + '%';
+        if (studyElapsedLabel) studyElapsedLabel.textContent = 'Time Spent: ' + mins + 'm ' + secs + 's';
+        if (studyRemainingLabel) studyRemainingLabel.textContent = 'Remaining: ' + remMins + 'm';
+
+        const milestoneCard = document.getElementById('card-' + step);
+        const ytBtn = milestoneCard ? milestoneCard.querySelector('.milestone-yt-btn') : null;
+        if (studyOpenYtBtn && ytBtn) {
+            studyOpenYtBtn.href = ytBtn.href;
+            studyOpenYtBtn.onclick = function() {
+                handleStudyLaunch(step);
+                closeStudyWarning();
+            };
         }
+
+        if (studyModal) studyModal.style.display = 'flex';
     }
 
-    if (authCancelBtn) {
-        authCancelBtn.addEventListener('click', function() {
-            authWarningModal.style.display = 'none';
-        });
+    function closeStudyWarning() {
+        if (studyModal) studyModal.style.display = 'none';
     }
 
-    if (authLaunchVideoBtn) {
-        authLaunchVideoBtn.addEventListener('click', function() {
-            authWarningModal.style.display = 'none';
-            if (warningTargetStep) {
-                const milestoneItem = document.getElementById('milestone-item-' + warningTargetStep);
-                const videoBtn = milestoneItem ? milestoneItem.querySelector('.milestone-video-btn') : null;
-                if (videoBtn) videoBtn.click();
+    if (studyCloseBtn) {
+        studyCloseBtn.addEventListener('click', closeStudyWarning);
+    }
+
+    // Ticker running every 5 seconds to update timers smoothly
+    setInterval(function() {
+        checkboxes.forEach(cb => {
+            const step = cb.getAttribute('data-step');
+            if (!progressState[step]) {
+                updateMilestoneStatus(step);
             }
         });
-    }
-
-    // Open video verification modal
-    window.openVideoVerificationModal = function(step, videoId, title) {
-        activeStep = step;
-        activeVideoId = videoId || '{{ active_roadmap.course_video_id }}' || 'rfscVS0vtbw';
-        activeVideoTitle = title || 'Tutorial Module';
-
-        if (modalVideoTitle) modalVideoTitle.textContent = activeVideoTitle;
-        if (videoModal) videoModal.style.display = 'flex';
-
-        // Initialize or update YouTube Player
-        const currentPct = watchPctState[step] || 0;
-        updateModalWatchUI(currentPct, authenticatedState[step]);
-
-        loadYouTubePlayer(activeVideoId);
-    };
-
-    function closeVideoModal() {
-        if (ytTrackerTimer) {
-            clearInterval(ytTrackerTimer);
-            ytTrackerTimer = null;
-        }
-        if (ytPlayer && typeof ytPlayer.stopVideo === 'function') {
-            try { ytPlayer.stopVideo(); } catch (e) {}
-        }
-        if (videoModal) videoModal.style.display = 'none';
-    }
-
-    if (closeVideoModalBtn) {
-        closeVideoModalBtn.addEventListener('click', closeVideoModal);
-    }
-
-    // Update modal progress bar
-    function updateModalWatchUI(pct, isAuth) {
-        if (watchTrackFill) {
-            watchTrackFill.style.width = pct + '%';
-            if (pct >= 80 || isAuth) {
-                watchTrackFill.classList.add('is-authenticated');
-            } else {
-                watchTrackFill.classList.remove('is-authenticated');
-            }
-        }
-
-        if (watchStatusLabel) {
-            watchStatusLabel.textContent = 'Watch Progress: ' + pct + '%';
-        }
-
-        if (watchFeedbackMsg) {
-            if (pct >= 80 || isAuth) {
-                watchFeedbackMsg.textContent = 'Watch Requirement Fulfilled: 80%+ Completed! Milestone Authenticated & Checked.';
-                watchFeedbackMsg.className = 'watch-feedback-msg verified';
-            } else {
-                watchFeedbackMsg.textContent = 'Watching: ' + pct + '% (Need 80% to check milestone). Please continue watching.';
-                watchFeedbackMsg.className = 'watch-feedback-msg';
-            }
-        }
-    }
-
-    // Authenticate milestone once 80% threshold is reached
-    function authenticateMilestone(step) {
-        if (authenticatedState[step]) return; // Already verified
-
-        authenticatedState[step] = true;
-        saveState(authStorageKey, authenticatedState);
-
-        // Automatically check the milestone checkbox
-        const cb = document.getElementById('check-step-' + step);
-        if (cb) {
-            cb.checked = true;
-        }
-        progressState[step] = true;
-        saveState(storageKey, progressState);
-
-        // Update card badges
-        const authBadge = document.getElementById('auth-badge-' + step);
-        if (authBadge) {
-            authBadge.textContent = 'Authenticated (80%+ Watched)';
-            authBadge.className = 'milestone-auth-badge auth-verified';
-        }
-        const summaryHint = document.getElementById('watch-summary-' + step);
-        if (summaryHint) {
-            summaryHint.textContent = 'Verified: 80%+ completed';
-        }
-
-        updateModalWatchUI(watchPctState[step] || 80, true);
-
-        // Advance green connector line and progress bar!
-        refreshOverallProgress();
-    }
-
-    // YouTube IFrame Player API integration
-    function loadYouTubePlayer(videoId) {
-        if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-            try {
-                ytPlayer.loadVideoById(videoId);
-                startTrackingLoop();
-                return;
-            } catch (e) {}
-        }
-
-        // Create player if not already created
-        if (window.YT && window.YT.Player) {
-            ytPlayer = new YT.Player('youtube-player-container', {
-                height: '100%',
-                width: '100%',
-                videoId: videoId,
-                playerVars: {
-                    'autoplay': 1,
-                    'playsinline': 1,
-                    'rel': 0,
-                    'modestbranding': 1
-                },
-                events: {
-                    'onReady': function(event) {
-                        try { event.target.playVideo(); } catch (e) {}
-                        startTrackingLoop();
-                    },
-                    'onStateChange': function(event) {
-                        if (event.data === YT.PlayerState.PLAYING) {
-                            startTrackingLoop();
-                        } else if (event.data === YT.PlayerState.ENDED) {
-                            // If video ended, that's 100%
-                            if (activeStep) {
-                                watchPctState[activeStep] = 100;
-                                saveState(watchPctStorageKey, watchPctState);
-                                updateModalWatchUI(100, true);
-                                authenticateMilestone(activeStep);
-                            }
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    // Periodic time-checker for 80% watch verification
-    function startTrackingLoop() {
-        if (ytTrackerTimer) clearInterval(ytTrackerTimer);
-
-        ytTrackerTimer = setInterval(function() {
-            if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
-
-            try {
-                const cur = ytPlayer.getCurrentTime();
-                const dur = ytPlayer.getDuration();
-
-                if (dur > 0 && activeStep) {
-                    const pct = Math.min(100, Math.round((cur / dur) * 100));
-
-                    // Keep track of highest percentage reached
-                    const prevMax = watchPctState[activeStep] || 0;
-                    if (pct > prevMax) {
-                        watchPctState[activeStep] = pct;
-                        saveState(watchPctStorageKey, watchPctState);
-
-                        const summaryHint = document.getElementById('watch-summary-' + activeStep);
-                        if (summaryHint && !authenticatedState[activeStep]) {
-                            summaryHint.textContent = 'Watched: ' + pct + '% / 80% Needed';
-                        }
-                    }
-
-                    updateModalWatchUI(Math.max(pct, prevMax), authenticatedState[activeStep]);
-
-                    // Check if 80% threshold reached
-                    if (pct >= 80 || prevMax >= 80) {
-                        authenticateMilestone(activeStep);
-                    }
-                }
-            } catch (err) {}
-        }, 500);
-    }
+    }, 5000);
 
     // Reset progress button
     if (resetBtn) {
         resetBtn.addEventListener('click', function() {
-            if (confirm('Reset your progress and video verification on this roadmap?')) {
+            if (confirm('Reset your progress and study timers for this roadmap?')) {
                 progressState = {};
-                authenticatedState = {};
-                watchPctState = {};
                 saveState(storageKey, progressState);
-                saveState(authStorageKey, authenticatedState);
-                saveState(watchPctStorageKey, watchPctState);
-                initMilestones();
+                checkboxes.forEach(cb => {
+                    const step = cb.getAttribute('data-step');
+                    localStorage.removeItem(studyStartKeyPrefix + step);
+                });
+                refreshOverallProgress();
             }
         });
     }
 
     // Initial setup on page load
-    initMilestones();
+    refreshOverallProgress();
 });
 </script>
 {% endblock %}
+
